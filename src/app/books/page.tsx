@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { client, readingBookQuery, readBooksQuery } from "@/lib/sanity";
+import { sanityFetch, sanityFetchSingle, readingBookQuery, readBooksQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { BookOpen, Star, Calendar, ArrowRight } from "lucide-react";
 
@@ -21,15 +21,11 @@ interface Book {
 }
 
 async function getBooks() {
-  try {
-    const [reading, read] = await Promise.all([
-      client.fetch(readingBookQuery),
-      client.fetch(readBooksQuery),
-    ]);
-    return { reading, read };
-  } catch {
-    return { reading: null, read: [] };
-  }
+  const [reading, read] = await Promise.all([
+    sanityFetchSingle<any>(readingBookQuery),
+    sanityFetch<any>(readBooksQuery),
+  ]);
+  return { reading, read };
 }
 
 function StarRating({ rating }: { rating?: number }) {
@@ -52,9 +48,9 @@ function BookCard({ book }: { book: Book }) {
     <div className="group rounded-xl border border-border bg-surface p-4 hover:border-primary/30 transition-colors">
       {/* Cover */}
       <div className="aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden mb-3">
-        {book.coverImage ? (
+        {book.coverImage && urlFor(book.coverImage) ? (
           <img
-            src={urlFor(book.coverImage).width(200).height(300).url()}
+            src={urlFor(book.coverImage)!.width(200).height(300).url()}
             alt={book.title}
             className="w-full h-full object-cover"
           />
@@ -98,9 +94,9 @@ export default async function BooksPage() {
               <div className="rounded-xl border border-border bg-surface p-6">
                 <div className="flex gap-4">
                   <div className="shrink-0 w-20 aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
-                    {reading.coverImage ? (
+                    {reading.coverImage && urlFor(reading.coverImage) ? (
                       <img
-                        src={urlFor(reading.coverImage).width(160).height(240).url()}
+                        src={urlFor(reading.coverImage)!.width(160).height(240).url()}
                         alt={reading.title}
                         className="w-full h-full object-cover"
                       />

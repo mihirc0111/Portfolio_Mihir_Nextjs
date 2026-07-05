@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { client, projectsQuery } from "@/lib/sanity";
+import { sanityFetch, projectsQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { ExternalLink, GitBranch, ArrowRight, Code2 } from "lucide-react";
 
@@ -22,11 +22,7 @@ interface Project {
 }
 
 async function getProjects(): Promise<Project[]> {
-  try {
-    return await client.fetch(projectsQuery);
-  } catch {
-    return [];
-  }
+  return sanityFetch<Project>(projectsQuery);
 }
 
 function ProjectCard({ project }: { project: Project }) {
@@ -40,9 +36,9 @@ function ProjectCard({ project }: { project: Project }) {
     <div className="group rounded-xl border border-border bg-surface overflow-hidden hover:border-primary/30 transition-colors">
       {/* Cover Image */}
       <div className="aspect-video bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
-        {project.coverImage ? (
+        {project.coverImage && urlFor(project.coverImage) ? (
           <img
-            src={urlFor(project.coverImage).width(600).height(340).url()}
+            src={urlFor(project.coverImage)!.width(600).height(340).url()}
             alt={project.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

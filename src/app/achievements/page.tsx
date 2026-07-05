@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { client, achievementsQuery } from "@/lib/sanity";
+import { sanityFetch, achievementsQuery } from "@/lib/sanity";
 import {
   Award,
   Trophy,
@@ -26,11 +26,7 @@ interface Achievement {
 }
 
 async function getAchievements(): Promise<Achievement[]> {
-  try {
-    return await client.fetch(achievementsQuery);
-  } catch {
-    return [];
-  }
+  return sanityFetch<Achievement>(achievementsQuery);
 }
 
 const iconMap: Record<string, React.ReactNode> = {
