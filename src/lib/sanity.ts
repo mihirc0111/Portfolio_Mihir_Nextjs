@@ -97,3 +97,25 @@ export const readBooksQuery = `*[_type == "book" && status == "read"] | order(or
   startDate,
   endDate
 }`;
+
+export const heroQuery = `*[_type == "hero"][0] {
+  _id,
+  greeting,
+  name,
+  tagline,
+  description,
+  ctaPrimary,
+  ctaSecondary,
+  profileImage
+}`;
+
+export const aboutQuery = `*[_type == "about"][0] {
+  _id,
+  content
+}`;
+
+export const skillCategoriesQuery = `*[_type == "skillCategory"] | order(orderPriority asc) {
+  _id,
+  title,
+  skills
+}`;

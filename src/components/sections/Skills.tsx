@@ -1,59 +1,27 @@
-const skillCategories = [
-  {
-    title: "Frontend",
-    skills: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Redux Toolkit",
-      "Tailwind CSS",
-      "CSS Modules",
-    ],
-  },
-  {
-    title: "Backend & Database",
-    skills: [
-      "Node.js",
-      "Next.js API Routes",
-      "Supabase",
-      "PostgreSQL",
-      "REST APIs",
-    ],
-  },
-  {
-    title: "Tools & Platforms",
-    skills: [
-      "Git",
-      "Vercel",
-      "Sanity CMS",
-      "Google Analytics",
-      "Figma",
-      "Playwright",
-    ],
-  },
-  {
-    title: "Core Concepts",
-    skills: [
-      "SSR/SSG",
-      "Web Vitals",
-      "WCAG Accessibility",
-      "XSS Prevention",
-      "Performance Optimization",
-      "Responsive Design",
-    ],
-  },
-];
+import { sanityFetch, skillCategoriesQuery } from "@/lib/sanity";
 
-export default function Skills() {
+interface SkillCategory {
+  _id: string;
+  title: string;
+  skills: string[];
+}
+
+async function getSkillCategories(): Promise<SkillCategory[]> {
+  return sanityFetch<SkillCategory>(skillCategoriesQuery);
+}
+
+export default async function Skills() {
+  const categories = await getSkillCategories();
+
   return (
     <section className="section" id="skills">
       <div className="container">
         <h2 className="text-center mb-12">Skills & Technologies</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skillCategories.map((category) => (
+          {categories.map((category) => (
             <div
-              key={category.title}
+              key={category._id}
               className="p-6 rounded-xl border border-border bg-surface hover:shadow-md transition-shadow"
             >
               <h3 className="text-lg font-semibold mb-4 text-primary">
