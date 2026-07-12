@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Projects I have built using modern web technologies.",
 };
 
+export const revalidate = 60;
+
 interface Project {
   _id: string;
   title: string;

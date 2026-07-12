@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: "Professional achievements, certifications, and awards.",
 };
 
+export const revalidate = 60;
+
 interface Achievement {
   _id: string;
   title: string;

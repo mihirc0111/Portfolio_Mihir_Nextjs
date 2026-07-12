@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "Books I have read and recommend.",
 };
 
+export const revalidate = 60;
+
 interface Book {
   _id: string;
   title: string;

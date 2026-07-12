@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-07-05T06:22:14.148Z",
+  "createdAt": "2026-07-05T06:48:27.309Z",
   "studioVersion": "6.3.0",
   "version": 3,
   "workspaces": [
@@ -13,7 +13,7 @@
       },
       "name": "default",
       "projectId": "b1z15rnu",
-      "schema": "81bb8e7f.create-schema.json",
+      "schema": "9d6f0127.create-schema.json",
       "title": "Portfolio CMS",
       "tools": "a1fd46b5.create-tools.json"
     }

@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "View and download my professional resume.",
 };
 
+export const revalidate = 60;
+
 export default function ResumePage() {
   return (
     <section className="section">
