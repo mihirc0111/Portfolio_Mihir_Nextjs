@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { auth, signOut } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { SignOutButton } from "@/components/SignOutButton";
 
 export default async function DashboardLayout({
   children,
@@ -50,19 +51,7 @@ export default async function DashboardLayout({
           </nav>
 
           <div className="mt-8 pt-8 border-t border-border">
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/login" });
-              }}
-            >
-              <button
-                type="submit"
-                className="w-full px-4 py-2 rounded-lg border border-border hover:bg-background transition-colors text-sm"
-              >
-                Sign Out
-              </button>
-            </form>
+            <SignOutButton />
           </div>
         </aside>
 
