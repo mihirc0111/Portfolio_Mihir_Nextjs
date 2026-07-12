@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth, signOut } from "@/lib/auth";
 
 export default async function DashboardLayout({
   children,
@@ -50,7 +50,12 @@ export default async function DashboardLayout({
           </nav>
 
           <div className="mt-8 pt-8 border-t border-border">
-            <form action="/api/auth/signout" method="POST">
+            <form
+              action={async () => {
+                "use server";
+                await signOut();
+              }}
+            >
               <button
                 type="submit"
                 className="w-full px-4 py-2 rounded-lg border border-border hover:bg-background transition-colors text-sm"
