@@ -1,7 +1,15 @@
+import { config } from "dotenv";
+config({ path: ".env.local" });
+
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+console.log("Environment check:");
+console.log("  NEXT_PUBLIC_SUPABASE_URL:", supabaseUrl || "NOT SET");
+console.log("  NEXT_PUBLIC_SUPABASE_ANON_KEY:", supabaseKey ? "SET" : "NOT SET");
+console.log("");
 
 if (!supabaseUrl || !supabaseKey) {
   console.error("❌ Missing Supabase credentials in .env.local");
