@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { supabase } from "@/lib/supabase";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET || "your-secret-key-change-in-production",
   providers: [
     CredentialsProvider({
       name: "Credentials",
