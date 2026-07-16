@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -37,6 +39,16 @@ export default function Header() {
           ))}
         </nav>
 
+        {!session && (
+          <Link
+            href="/login"
+            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
+          >
+            <LogIn size={16} />
+            Login
+          </Link>
+        )}
+
         <button
           className="md:hidden p-2 text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -59,6 +71,16 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            {!session && (
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                <LogIn size={16} />
+                Login
+              </Link>
+            )}
           </div>
         </nav>
       )}

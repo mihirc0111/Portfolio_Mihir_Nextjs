@@ -1,7 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+// Placeholder reducer to avoid Redux warning
+const placeholderReducer = (state = {}, action: any) => state;
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    placeholder: placeholderReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
