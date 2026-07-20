@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { redirect } from "next/navigation";
-import DashboardComments from "@/components/dashboard/CommentsSection";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -59,9 +58,6 @@ export default async function DashboardPage() {
           <p className="text-3xl font-bold text-primary">{stats.totalViews}</p>
         </div>
       </div>
-
-      {/* All Comments */}
-      <DashboardComments />
     </div>
   );
 }
