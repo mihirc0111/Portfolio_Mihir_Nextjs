@@ -1,16 +1,28 @@
 "use client";
 
-import { MessageSquare, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import { useGetCommentsQuery } from "@/store/api/commentsApi";
+import { MessageSquare, ChevronLeft, ChevronRight, Loader2, Trash2 } from "lucide-react";
+import { useGetCommentsQuery, useDeleteCommentMutation } from "@/store/api/commentsApi";
 import type { Comment } from "@/types";
 import { useState } from "react";
 
 function CommentCard({ comment }: { comment: Comment }) {
+  const [deleteComment, { isLoading: isDeleting }] = useDeleteCommentMutation();
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const formattedDate = new Date(comment.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
+
+  const handleDelete = async () => {
+    try {
+      await deleteComment(comment.id).unwrap();
+      setShowConfirm(false);
+    } catch {
+      // Error handled by RTK
+    }
+  };
 
   return (
     <div className="p-4 rounded-lg border border-border bg-surface">
@@ -18,6 +30,39 @@ function CommentCard({ comment }: { comment: Comment }) {
         <div>
           <h4 className="font-medium text-sm">{comment.name}</h4>
           <p className="text-xs text-muted">{formattedDate}</p>
+        </div>
+        <div className="relative">
+          <button
+            onClick={() => setShowConfirm(true)}
+            disabled={isDeleting}
+            className="p-1.5 rounded-md text-muted hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-40"
+            title="Delete comment"
+          >
+            <Trash2 size={16} />
+          </button>
+          {showConfirm && (
+            <div className="absolute right-0 top-full mt-2 z-10 w-48 p-3 rounded-lg border border-border bg-surface shadow-lg">
+              <p className="text-xs text-muted mb-2">
+                Delete this comment?
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="flex-1 px-2 py-1 text-xs rounded bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-50"
+                >
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </button>
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  disabled={isDeleting}
+                  className="flex-1 px-2 py-1 text-xs rounded border border-border hover:bg-surface transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <p className="text-sm text-foreground leading-relaxed">

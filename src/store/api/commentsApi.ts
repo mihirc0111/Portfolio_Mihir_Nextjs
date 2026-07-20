@@ -41,7 +41,14 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: ["Comment"],
     }),
+    deleteComment: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `comments/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Comment"],
+    }),
   }),
 });
 
-export const { useGetCommentsQuery, useCreateCommentMutation } = commentsApi;
+export const { useGetCommentsQuery, useCreateCommentMutation, useDeleteCommentMutation } = commentsApi;
