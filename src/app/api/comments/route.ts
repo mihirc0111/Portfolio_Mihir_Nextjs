@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+function transformComment(comment: Record<string, unknown>) {
+  return {
+    id: comment.id,
+    name: comment.name,
+    email: comment.email,
+    message: comment.message,
+    status: comment.status,
+    createdAt: comment.created_at,
+    repliedAt: comment.replied_at ?? null,
+    replyMessage: comment.reply_message ?? null,
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -35,8 +48,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const transformedData = data.map(transformComment);
     return NextResponse.json(
-      { message: "Comment submitted successfully", data },
+      { message: "Comment submitted successfully", data: transformedData },
       { status: 201 }
     );
   } catch (error) {
@@ -63,7 +77,8 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(data);
+    const transformed = data.map(transformComment);
+    return NextResponse.json(transformed);
   } catch (error) {
     console.error("Error in GET /api/comments:", error);
     return NextResponse.json(

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { redirect } from "next/navigation";
+import DashboardComments from "@/components/dashboard/CommentsSection";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -59,41 +60,8 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Recent Comments */}
-      <div className="bg-surface border border-border rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-4">Recent Comments</h2>
-        {comments && comments.length > 0 ? (
-          <div className="space-y-4">
-            {comments.slice(0, 5).map((comment) => (
-              <div
-                key={comment.id}
-                className="border-b border-border last:border-0 pb-4 last:pb-0"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="font-medium">{comment.name}</p>
-                    <p className="text-sm text-muted">{comment.email}</p>
-                  </div>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      comment.status === "pending"
-                        ? "bg-warning/10 text-warning"
-                        : comment.status === "replied"
-                        ? "bg-accent/10 text-accent"
-                        : "bg-secondary/10 text-secondary"
-                    }`}
-                  >
-                    {comment.status}
-                  </span>
-                </div>
-                <p className="text-sm text-muted mt-2">{comment.message}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted text-center py-8">No comments yet</p>
-        )}
-      </div>
+      {/* All Comments */}
+      <DashboardComments />
     </div>
   );
 }
