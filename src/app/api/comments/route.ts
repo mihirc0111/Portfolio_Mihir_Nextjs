@@ -62,12 +62,35 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const { data, error } = await supabase
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get("status");
+    const search = searchParams.get("search");
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const pageSize = parseInt(searchParams.get("pageSize") || "5", 10);
+
+    let query = supabase
       .from("comments")
-      .select("*")
+      .select("*", { count: "exact" })
       .order("created_at", { ascending: false });
+
+    // Filter by status if provided
+    if (status && status !== "all") {
+      query = query.eq("status", status);
+    }
+
+    // Filter by search term if provided
+    if (search) {
+      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,message.ilike.%${search}%`);
+    }
+
+    // Paginate
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    query = query.range(from, to);
+
+    const { data, error, count } = await query;
 
     if (error) {
       console.error("Error fetching comments:", error);
@@ -78,7 +101,7 @@ export async function GET() {
     }
 
     const transformed = data.map(transformComment);
-    return NextResponse.json(transformed);
+    return NextResponse.json({ comments: transformed, total: count ?? 0 });
   } catch (error) {
     console.error("Error in GET /api/comments:", error);
     return NextResponse.json(
