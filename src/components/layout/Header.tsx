@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 const navLinks = [
@@ -42,7 +42,21 @@ export default function Header() {
           ))}
         </nav>
 
-        {!session && !isLoginPage && (
+        {session ? (
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-surface transition-colors"
+            >
+              <LayoutDashboard size={16} />
+              Dashboard
+            </Link>
+            <span className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground border-l border-border">
+              <User size={16} className="text-primary" />
+              {session.user?.name || session.user?.email}
+            </span>
+          </div>
+        ) : !isLoginPage ? (
           <Link
             href="/login"
             className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
@@ -50,7 +64,7 @@ export default function Header() {
             <LogIn size={16} />
             Login
           </Link>
-        )}
+        ) : null}
 
         <button
           className="md:hidden p-2 text-foreground"
@@ -74,7 +88,22 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            {!session && !isLoginPage && (
+            {session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-surface transition-colors"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <LayoutDashboard size={16} />
+                  Dashboard
+                </Link>
+                <span className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground border-t border-border pt-2">
+                  <User size={16} className="text-primary" />
+                  {session.user?.name || session.user?.email}
+                </span>
+              </>
+            ) : !isLoginPage ? (
               <Link
                 href="/login"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
@@ -83,7 +112,7 @@ export default function Header() {
                 <LogIn size={16} />
                 Login
               </Link>
-            )}
+            ) : null}
           </div>
         </nav>
       )}
