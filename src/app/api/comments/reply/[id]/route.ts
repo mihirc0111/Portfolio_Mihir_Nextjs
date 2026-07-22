@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 function transformComment(comment: Record<string, unknown>) {
   return {
@@ -66,10 +74,10 @@ export async function PATCH(
       );
     }
 
-    // Send email notification to the commenter
+    // Send email notification to the commenter via Gmail SMTP
     try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "noreply@yourportfolio.com",
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM,
         to: comment.email,
         subject: `Re: Comment from ${comment.name}`,
         html: `
@@ -84,7 +92,7 @@ export async function PATCH(
               <p style="margin: 8px 0;">${replyMessage}</p>
             </div>
             <p style="color: #999; font-size: 12px; margin-top: 24px;">
-              This is an automated reply from my portfolio website.
+              This is an automated reply from Mihir's portfolio website.
             </p>
           </div>
         `,
