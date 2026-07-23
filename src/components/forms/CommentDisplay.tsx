@@ -62,7 +62,13 @@ function CommentCard({ comment }: { comment: Comment }) {
               {comment.status}
             </span>
           </div>
-          <p className="text-xs text-muted">{formattedDate}</p>
+          <a
+            href={`mailto:${comment.email}`}
+            className="text-xs text-primary hover:text-primary-hover transition-colors truncate block"
+          >
+            {comment.email}
+          </a>
+          <p className="text-xs text-muted mt-0.5">{formattedDate}</p>
         </div>
         <div className="flex items-center gap-1 ml-2">
           {comment.status !== "replied" && (
