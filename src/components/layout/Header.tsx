@@ -26,16 +26,18 @@ export default function Header() {
         <Link
           href="/"
           className="text-xl font-bold text-primary hover:text-primary-hover transition-colors"
+          aria-label="Portfolio home"
         >
           Portfolio
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-muted hover:text-foreground transition-colors"
+              aria-label={link.label}
             >
               {link.label}
             </Link>
