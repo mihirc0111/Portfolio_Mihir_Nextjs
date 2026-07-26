@@ -44,8 +44,8 @@ function PieChartCard({ title, data, icon: Icon }: { title: string; data: { name
         <h3 className="text-sm font-semibold">{title}</h3>
       </div>
       {data.length > 0 ? (
-        <div className="flex items-center gap-4">
-          <div className="w-32 h-32 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 shrink-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={data} cx="50%" cy="50%" innerRadius={28} outerRadius={48} dataKey="count" paddingAngle={2}>

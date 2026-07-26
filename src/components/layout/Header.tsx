@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, LogIn, LayoutDashboard, User, Sun, Moon } from "lucide-react";
@@ -21,11 +21,16 @@ export default function Header() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
+  const isDashboard = pathname.startsWith("/dashboard");
   const { theme, toggleTheme } = useTheme();
   const { isResumeHidden } = useSource();
   const visibleNavLinks = navLinks.filter(
     (link) => !isResumeHidden || link.href !== "/resume"
   );
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -85,16 +90,19 @@ export default function Header() {
           ) : null}
         </div>
 
-        <button
-          className="md:hidden p-2 text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {!isDashboard && (
+          <button
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        )}
       </div>
 
-      {mobileOpen && (
+      {mobileOpen && !isDashboard && (
         <nav className="md:hidden border-t border-border">
           <div className="container py-4 flex flex-col gap-4">
             {visibleNavLinks.map((link) => (

@@ -105,7 +105,7 @@ export default function GuestsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold mb-2">Guest Users</h1>
           <p className="text-muted">
@@ -130,7 +130,7 @@ export default function GuestsPage() {
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <span className="text-muted">Email:</span>
-              <code className="flex-1 bg-white dark:bg-gray-800 px-2 py-1 rounded">
+              <code className="flex-1 bg-white dark:bg-gray-800 px-2 py-1 rounded truncate">
                 {newGuest.email}
               </code>
               <button
@@ -142,7 +142,7 @@ export default function GuestsPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-muted">Password:</span>
-              <code className="flex-1 bg-white dark:bg-gray-800 px-2 py-1 rounded">
+              <code className="flex-1 bg-white dark:bg-gray-800 px-2 py-1 rounded truncate">
                 {newGuest.password}
               </code>
               <button
@@ -163,7 +163,7 @@ export default function GuestsPage() {
       {showForm && (
         <div className="mb-6 p-4 rounded-lg border border-border bg-surface">
           <h3 className="text-sm font-semibold mb-3">Create New Guest</h3>
-          <form onSubmit={handleCreate} className="flex gap-3">
+          <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               value={company}
@@ -206,9 +206,9 @@ export default function GuestsPage() {
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{guest.email}</p>
-                  <div className="flex items-center gap-3 mt-1">
-                    <span className="text-xs text-muted">{guest.company}</span>
-                    <span className="text-xs text-muted">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mt-1">
+                    <span className="text-xs text-muted truncate">{guest.company}</span>
+                    <span className="text-xs text-muted shrink-0">
                       Expires: {formatDate(guest.expires_at)}
                     </span>
                   </div>

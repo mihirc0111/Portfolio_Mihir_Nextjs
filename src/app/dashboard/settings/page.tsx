@@ -21,13 +21,13 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-muted mb-1">
               Name
             </label>
-            <p className="text-foreground">{session?.user?.name || "Not set"}</p>
+            <p className="text-foreground break-all">{session?.user?.name || "Not set"}</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-muted mb-1">
               Email
             </label>
-            <p className="text-foreground">{session?.user?.email}</p>
+            <p className="text-foreground break-all">{session?.user?.email}</p>
           </div>
         </div>
       </div>

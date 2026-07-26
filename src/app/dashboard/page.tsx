@@ -34,28 +34,28 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-surface border border-border rounded-xl p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+        <div className="bg-surface border border-border rounded-xl p-4 md:p-6">
           <h3 className="text-sm font-medium text-muted mb-2">
             Total Comments
           </h3>
-          <p className="text-3xl font-bold">{stats.totalComments}</p>
+          <p className="text-2xl md:text-3xl font-bold truncate">{stats.totalComments}</p>
         </div>
 
-        <div className="bg-surface border border-border rounded-xl p-6">
+        <div className="bg-surface border border-border rounded-xl p-4 md:p-6">
           <h3 className="text-sm font-medium text-muted mb-2">
             Pending Comments
           </h3>
-          <p className="text-3xl font-bold text-warning">
+          <p className="text-2xl md:text-3xl font-bold text-warning truncate">
             {stats.pendingComments}
           </p>
         </div>
 
-        <div className="bg-surface border border-border rounded-xl p-6">
+        <div className="bg-surface border border-border rounded-xl p-4 md:p-6">
           <h3 className="text-sm font-medium text-muted mb-2">
             Total Page Views
           </h3>
-          <p className="text-3xl font-bold text-primary">{stats.totalViews}</p>
+          <p className="text-2xl md:text-3xl font-bold text-primary truncate">{stats.totalViews}</p>
         </div>
       </div>
     </div>

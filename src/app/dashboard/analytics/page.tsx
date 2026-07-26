@@ -107,7 +107,7 @@ export default function AnalyticsPage() {
           <h1 className="text-3xl font-bold mb-2">Analytics</h1>
           <p className="text-muted">Track your portfolio performance and visitor insights.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {[
             { value: "24h", label: "24H" },
             { value: "7d", label: "7 Days" },
@@ -146,10 +146,10 @@ export default function AnalyticsPage() {
         {data.topPages.length > 0 ? (
           <div className="space-y-2">
             {data.topPages.map((page, i) => (
-              <div key={page.page} className="flex items-center justify-between py-1.5">
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-xs text-muted w-5">{i + 1}.</span>
-                  <span className="text-foreground">{page.page}</span>
+              <div key={page.page} className="flex items-center justify-between py-1.5 gap-2">
+                <div className="flex items-center gap-2 text-sm min-w-0">
+                  <span className="text-xs text-muted w-5 shrink-0">{i + 1}.</span>
+                  <span className="text-foreground truncate">{page.page}</span>
                 </div>
                 <span className="text-sm font-medium">{page.views}</span>
               </div>

@@ -38,7 +38,7 @@ export default function LoginPage() {
 
   return (
     <section className="section flex items-center justify-center min-h-[calc(100vh-8rem)]">
-      <div className="w-full max-w-sm p-8 rounded-xl border border-border bg-surface">
+      <div className="w-full max-w-sm p-6 sm:p-8 rounded-xl border border-border bg-surface">
         <h2 className="text-2xl font-semibold text-center mb-6">Sign In</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
