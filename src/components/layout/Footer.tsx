@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const socialLinks = [
-  { href: "https://github.com/yourusername", label: "GitHub" },
-  { href: "https://linkedin.com/in/yourusername", label: "LinkedIn" },
-  { href: "https://twitter.com/yourusername", label: "Twitter" },
+  { href: "https://github.com/mihirc0111", label: "GitHub" },
+  { href: "https://linkedin.com/in/mihirc0111", label: "LinkedIn" },
+  { href: "mailto:mihirc0111@gmail.com", label: "Gmail" },
 ];
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="border-t border-border bg-surface">
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-sm text-muted">
-          &copy; {new Date().getFullYear()} Your Name. All rights reserved.
+          &copy; {new Date().getFullYear()} Mihir Chavan. All rights reserved.
         </p>
 
         <div className="flex items-center gap-6">
