@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Providers from "@/components/Providers";
 import "./globals.css";
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Your Name - Frontend Developer",
+    default: "Mihir Chavan - Frontend Developer",
     template: "%s | Your Name",
   },
   description:
@@ -29,9 +32,9 @@ export const metadata: Metadata = {
     "typescript",
     "portfolio",
   ],
-  authors: [{ name: "Your Name" }],
+  authors: [{ name: "Mihir Chavan" }],
   openGraph: {
-    title: "Your Name - Frontend Developer",
+    title: "Mihir Chavan - Frontend Developer",
     description:
       "Portfolio showcasing frontend development expertise with Next.js, TypeScript, and modern web technologies.",
     type: "website",
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Name - Frontend Developer",
+    title: "Mihir Chavan - Frontend Developer",
     description:
       "Portfolio showcasing frontend development expertise with Next.js, TypeScript, and modern web technologies.",
   },
@@ -55,6 +58,26 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
+      </head>
       <body className="min-h-full flex flex-col">
         <Providers>
           <Header />
