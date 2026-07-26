@@ -25,14 +25,15 @@ async function seed() {
   try {
     // Create admin user with hashed password
     console.log("👤 Creating admin user...");
-    const adminPassword = "password123";
+    const adminEmail = "MihirNext@admin.com";
+    const adminPassword = "admin@123";
     const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
 
     const { data: admin, error: adminError } = await supabase
       .from("users")
       .insert([
         {
-          email: "admin@example.com",
+          email: adminEmail,
           password_hash: adminPasswordHash,
           name: "Admin User",
           role: "admin",
@@ -44,8 +45,8 @@ async function seed() {
     if (adminError) {
       console.log("  ⚠️  Admin user might already exist:", adminError.message);
     } else {
-      console.log("  ✓ Created admin user: admin@example.com");
-      console.log("  ⚠️  Save this password securely: password123");
+      console.log("  ✓ Created admin user:", adminEmail);
+      console.log("  ⚠️  Save this password securely: admin@123");
     }
 
     // Create sample comments
