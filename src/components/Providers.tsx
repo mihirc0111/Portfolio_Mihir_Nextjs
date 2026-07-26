@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Provider } from "react-redux";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { store } from "@/store/store";
 import { useAnalytics } from "@/lib/analytics";
 import { useWebVitals } from "@/lib/webVitals";
@@ -47,9 +48,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <Provider store={store}>
-        <AnalyticsProvider>
-          <A11yContent>{children}</A11yContent>
-        </AnalyticsProvider>
+        <ThemeProvider>
+          <AnalyticsProvider>
+            <A11yContent>{children}</A11yContent>
+          </AnalyticsProvider>
+        </ThemeProvider>
       </Provider>
     </SessionProvider>
   );

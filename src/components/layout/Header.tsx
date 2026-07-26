@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LogIn, LayoutDashboard, User } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, User, Sun, Moon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,6 +20,7 @@ export default function Header() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -44,29 +46,39 @@ export default function Header() {
           ))}
         </nav>
 
-        {session ? (
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-surface transition-colors"
-            >
-              <LayoutDashboard size={16} />
-              Dashboard
-            </Link>
-            <span className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground border-l border-border">
-              <User size={16} className="text-primary" />
-              {session.user?.name || session.user?.email}
-            </span>
-          </div>
-        ) : !isLoginPage ? (
-          <Link
-            href="/login"
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-surface transition-colors"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <LogIn size={16} />
-            Login
-          </Link>
-        ) : null}
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {session ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-surface transition-colors"
+              >
+                <LayoutDashboard size={16} />
+                Dashboard
+              </Link>
+              <span className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground border-l border-border">
+                <User size={16} className="text-primary" />
+                {session.user?.name || session.user?.email}
+              </span>
+            </>
+          ) : !isLoginPage ? (
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors"
+            >
+              <LogIn size={16} />
+              Login
+            </Link>
+          ) : null}
+        </div>
 
         <button
           className="md:hidden p-2 text-foreground"
@@ -90,6 +102,17 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={() => {
+                toggleTheme();
+                setMobileOpen(false);
+              }}
+              className="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-foreground transition-colors"
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+            </button>
             {session ? (
               <>
                 <Link
