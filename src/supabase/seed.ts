@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
+import bcrypt from "bcryptjs";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -22,14 +23,17 @@ async function seed() {
   console.log("🌱 Seeding Supabase database...\n");
 
   try {
-    // Create admin user
+    // Create admin user with hashed password
     console.log("👤 Creating admin user...");
+    const adminPassword = "password123";
+    const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
+
     const { data: admin, error: adminError } = await supabase
       .from("users")
       .insert([
         {
           email: "admin@example.com",
-          password_hash: "password123", // In production, use bcrypt!
+          password_hash: adminPasswordHash,
           name: "Admin User",
           role: "admin",
           company: "Portfolio",
@@ -40,7 +44,8 @@ async function seed() {
     if (adminError) {
       console.log("  ⚠️  Admin user might already exist:", adminError.message);
     } else {
-      console.log("  ✓ Created admin user: admin@example.com / password123");
+      console.log("  ✓ Created admin user: admin@example.com");
+      console.log("  ⚠️  Save this password securely: password123");
     }
 
     // Create sample comments

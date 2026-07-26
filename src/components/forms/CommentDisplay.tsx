@@ -1,9 +1,9 @@
 "use client";
 
-import { MessageSquare, ChevronLeft, ChevronRight, Loader2, Trash2, Reply, Search, X } from "lucide-react";
+import { useState } from "react";
+import { MessageSquare, ChevronLeft, ChevronRight, Trash2, Reply, Search, X } from "lucide-react";
 import { useGetCommentsQuery, useDeleteCommentMutation, useReplyCommentMutation } from "@/store/api/commentsApi";
 import type { Comment } from "@/types";
-import { useState } from "react";
 
 const statusFilters = [
   { value: "all", label: "All" },
@@ -11,12 +11,13 @@ const statusFilters = [
   { value: "replied", label: "Replied" },
 ];
 
-function CommentCard({ comment }: { comment: Comment }) {
+function CommentCard({ comment }: { comment: Comment & { userRole?: string } }) {
   const [deleteComment, { isLoading: isDeleting }] = useDeleteCommentMutation();
   const [replyComment, { isLoading: isReplying }] = useReplyCommentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyMessage, setReplyMessage] = useState("");
+  const isGuest = comment.userRole === "guest";
 
   const formattedDate = new Date(comment.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -71,7 +72,7 @@ function CommentCard({ comment }: { comment: Comment }) {
           <p className="text-xs text-muted mt-0.5">{formattedDate}</p>
         </div>
         <div className="flex items-center gap-1 ml-2">
-          {comment.status !== "replied" && (
+          {!isGuest && comment.status !== "replied" && (
             <button
               onClick={() => setShowReplyForm(!showReplyForm)}
               disabled={isReplying}
@@ -81,39 +82,41 @@ function CommentCard({ comment }: { comment: Comment }) {
               <Reply size={16} />
             </button>
           )}
-          <div className="relative">
-            <button
-              onClick={() => setShowConfirm(true)}
-              disabled={isDeleting}
-              className="p-1.5 rounded-md text-muted hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-40"
-              title="Delete comment"
-            >
-              <Trash2 size={16} />
-            </button>
-            {showConfirm && (
-              <div className="absolute right-0 top-full mt-2 z-10 w-48 p-3 rounded-lg border border-border bg-surface shadow-lg">
-                <p className="text-xs text-muted mb-2">
-                  Delete this comment?
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleDelete}
-                    disabled={isDeleting}
-                    className="flex-1 px-2 py-1 text-xs rounded bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-50"
-                  >
-                    {isDeleting ? "Deleting..." : "Delete"}
-                  </button>
-                  <button
-                    onClick={() => setShowConfirm(false)}
-                    disabled={isDeleting}
-                    className="flex-1 px-2 py-1 text-xs rounded border border-border hover:bg-surface transition-colors"
-                  >
-                    Cancel
-                  </button>
+          {!isGuest && (
+            <div className="relative">
+              <button
+                onClick={() => setShowConfirm(true)}
+                disabled={isDeleting}
+                className="p-1.5 rounded-md text-muted hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-40"
+                title="Delete comment"
+              >
+                <Trash2 size={16} />
+              </button>
+              {showConfirm && (
+                <div className="absolute right-0 top-full mt-2 z-10 w-48 p-3 rounded-lg border border-border bg-surface shadow-lg">
+                  <p className="text-xs text-muted mb-2">
+                    Delete this comment?
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                      className="flex-1 px-2 py-1 text-xs rounded bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-50"
+                    >
+                      {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
+                    <button
+                      onClick={() => setShowConfirm(false)}
+                      disabled={isDeleting}
+                      className="flex-1 px-2 py-1 text-xs rounded border border-border hover:bg-surface transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

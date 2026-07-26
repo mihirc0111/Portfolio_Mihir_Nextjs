@@ -90,10 +90,6 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
-
-        <div className="mt-4 text-center text-sm text-muted">
-          <p>Demo: admin@example.com / password123</p>
-        </div>
       </div>
     </section>
   );
