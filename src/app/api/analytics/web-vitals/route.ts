@@ -24,19 +24,12 @@ export async function POST(request: NextRequest) {
     ]);
 
     if (error) {
-      console.error("Error storing web vital:", error);
-      return NextResponse.json(
-        { error: "Failed to store web vital" },
-        { status: 500 }
-      );
+      console.warn("Web vitals table not available:", error.message);
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error in POST /api/analytics/web-vitals:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true });
   }
 }

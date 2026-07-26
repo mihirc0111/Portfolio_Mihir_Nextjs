@@ -11,26 +11,25 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  const stored = localStorage.getItem("theme") as Theme | null;
-  if (stored) return stored;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    const stored = localStorage.getItem("theme") as Theme | null;
+    const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+    const initial = stored || preferred;
+    document.documentElement.classList.toggle("dark", initial === "dark");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(initial);
+  }, []);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
       localStorage.setItem("theme", next);
+      document.documentElement.classList.toggle("dark", next === "dark");
       return next;
     });
   }, []);

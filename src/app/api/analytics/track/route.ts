@@ -13,11 +13,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get IP for location detection
     const forwarded = request.headers.get("x-forwarded-for");
     const ip = forwarded?.split(",")[0]?.trim() || "unknown";
 
-    // Insert analytics event
     const { error } = await supabase.from("analytics_events").insert([
       {
         event_type: eventType,
@@ -30,20 +28,15 @@ export async function POST(request: NextRequest) {
     ]);
 
     if (error) {
-      console.error("Error tracking analytics event:", error);
-      return NextResponse.json(
-        { error: "Failed to track event" },
-        { status: 500 }
-      );
+      console.warn("Analytics events table not available:", error.message);
+      return NextResponse.json({ success: true });
     }
 
-    // Also upsert page_views counter
     const { error: upsertError } = await supabase.rpc("increment_page_view", {
       page_slug: pagePath,
     });
 
     if (upsertError) {
-      // If the RPC doesn't exist, fall back to insert
       const { error: insertError } = await supabase
         .from("page_views")
         .upsert(
@@ -52,16 +45,13 @@ export async function POST(request: NextRequest) {
         );
 
       if (insertError) {
-        console.error("Error updating page views:", insertError);
+        console.warn("Page views table not available:", insertError.message);
       }
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error in POST /api/analytics/track:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true });
   }
 }
