@@ -29,7 +29,7 @@ async function seed() {
     const adminPassword = "admin@123";
     const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
 
-    const { data: admin, error: adminError } = await supabase
+    const { error: adminError } = await supabase
       .from("users")
       .insert([
         {

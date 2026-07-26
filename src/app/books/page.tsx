@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import type { SanityImageSource } from "@sanity/image-url";
 import { sanityFetch, sanityFetchSingle, readingBookQuery, readBooksQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
-import { BookOpen, Star, Calendar, ArrowRight } from "lucide-react";
+import { BookOpen, Star, Calendar } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Books",
@@ -15,7 +16,7 @@ interface Book {
   _id: string;
   title: string;
   author: string;
-  coverImage?: any;
+  coverImage?: SanityImageSource;
   rating?: number;
   review?: string;
   status: string;
@@ -23,10 +24,10 @@ interface Book {
   endDate?: string;
 }
 
-async function getBooks() {
+async function getBooks(): Promise<{ reading: Book | null; read: Book[] }> {
   const [reading, read] = await Promise.all([
-    sanityFetchSingle<any>(readingBookQuery),
-    sanityFetch<any>(readBooksQuery),
+    sanityFetchSingle<Book>(readingBookQuery),
+    sanityFetch<Book>(readBooksQuery),
   ]);
   return { reading, read };
 }
@@ -148,7 +149,7 @@ export default async function BooksPage() {
 
         {/* Books I've Read */}
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Books I've Read</h2>
+          <h2 className="text-2xl font-semibold mb-6">Books I&apos;ve Read</h2>
 
           {read.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -161,7 +162,7 @@ export default async function BooksPage() {
               <BookOpen size={48} className="mx-auto text-muted/30 mb-4" />
               <h3 className="text-lg font-semibold mb-1">No books yet</h3>
               <p className="text-sm text-muted max-w-sm mx-auto">
-                Books I've read will appear here once I add them through
+                Books I&apos;ve read will appear here once I add them through
                 the CMS.
               </p>
             </div>

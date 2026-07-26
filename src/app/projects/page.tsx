@@ -4,6 +4,7 @@ import Image from "next/image";
 import { sanityFetch, projectsQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { ExternalLink, GitBranch, ArrowRight, Code2 } from "lucide-react";
+import type { SanityImageSource } from "@sanity/image-url";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -20,7 +21,7 @@ interface Project {
   techStack: string[];
   liveUrl?: string;
   githubUrl?: string;
-  coverImage?: any;
+  coverImage?: SanityImageSource;
   status: string;
 }
 

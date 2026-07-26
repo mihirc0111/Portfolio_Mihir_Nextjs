@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Plus, Trash2, Copy, Check, UserPlus } from "lucide-react";
+import { Users, Trash2, Copy, Check, UserPlus } from "lucide-react";
 
 interface GuestUser {
   id: string;

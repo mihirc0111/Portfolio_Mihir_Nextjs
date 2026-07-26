@@ -8,10 +8,10 @@ export const commentSchema = z.object({
     .trim(),
   email: z
     .string()
-    .email("Please enter a valid email address")
-    .max(255, "Email must be less than 255 characters")
     .trim()
-    .toLowerCase(),
+    .toLowerCase()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters"),
   message: z
     .string()
     .min(10, "Message must be at least 10 characters")
@@ -24,9 +24,9 @@ export type CommentFormData = z.infer<typeof commentSchema>;
 export const loginSchema = z.object({
   email: z
     .string()
-    .email("Please enter a valid email address")
     .trim()
-    .toLowerCase(),
+    .toLowerCase()
+    .email("Please enter a valid email address"),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")

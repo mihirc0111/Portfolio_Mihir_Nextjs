@@ -73,7 +73,7 @@ export default function CommentForm() {
 
       // Reset success message after 5 seconds
       setTimeout(() => setSuccess(false), 5000);
-    } catch (error) {
+    } catch {
       setErrors({
         message: "Failed to submit comment. Please try again later.",
       });

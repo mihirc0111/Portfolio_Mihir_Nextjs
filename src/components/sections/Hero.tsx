@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDown, Download } from "lucide-react";
+import type { SanityImageSource } from "@sanity/image-url";
 import { sanityFetchSingle, heroQuery, urlFor } from "@/lib/sanity";
 
 interface HeroData {
@@ -10,7 +11,7 @@ interface HeroData {
   description?: string;
   ctaPrimary?: string;
   ctaSecondary?: string;
-  profileImage?: any;
+  profileImage?: SanityImageSource;
 }
 
 async function getHeroData(): Promise<HeroData | null> {
