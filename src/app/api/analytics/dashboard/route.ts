@@ -33,13 +33,13 @@ export async function GET(request: NextRequest) {
       .select("*", { count: "exact", head: true })
       .eq("event_type", "page_view");
 
-    // Total unique visitors (by IP)
-    const { data: uniqueIps } = await supabase
+    // Total unique visitors (by session_id)
+    const { data: uniqueSessions } = await supabase
       .from("analytics_events")
-      .select("ip_address")
+      .select("session_id")
       .eq("event_type", "page_view");
 
-    const uniqueVisitors = new Set(uniqueIps?.map((e) => e.ip_address).filter(Boolean)).size;
+    const uniqueVisitors = new Set(uniqueSessions?.map((e) => e.session_id).filter(Boolean)).size;
 
     // Views in current period
     const { count: periodViews } = await supabase

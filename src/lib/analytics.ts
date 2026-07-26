@@ -72,6 +72,10 @@ export function useAnalytics() {
   const trackedPath = useRef("");
 
   useEffect(() => {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      return;
+    }
+
     const currentPath = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
     if (currentPath === trackedPath.current) return;
     trackedPath.current = currentPath;
