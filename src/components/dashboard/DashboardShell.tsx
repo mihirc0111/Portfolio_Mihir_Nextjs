@@ -23,6 +23,7 @@ const siteLinks = [
   { href: "/projects", label: "Projects" },
   { href: "/achievements", label: "Achievements" },
   { href: "/books", label: "Books" },
+  { href: "/technical-overview", label: "Tech Overview" },
   { href: "/resume", label: "Resume" },
 ];
 

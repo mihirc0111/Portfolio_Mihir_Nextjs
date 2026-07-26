@@ -120,3 +120,46 @@ export const skillCategoriesQuery = `*[_type == "skillCategory"] | order(orderPr
   title,
   skills
 }`;
+
+export const technicalOverviewQuery = `*[_type == "technicalOverview"][0] {
+  _id,
+  title,
+  subtitle,
+  techStack[] | order(order asc) {
+    name,
+    description,
+    icon,
+    version,
+    website,
+    category,
+    order
+  },
+  aiTools[] | order(order asc) {
+    name,
+    description,
+    icon,
+    website,
+    order
+  },
+  architecture[] | order(order asc) {
+    name,
+    description,
+    icon,
+    website,
+    order
+  },
+  highlights[] | order(order asc) {
+    name,
+    description,
+    icon,
+    website,
+    order
+  },
+  deployment[] | order(order asc) {
+    name,
+    description,
+    icon,
+    website,
+    order
+  }
+}`;

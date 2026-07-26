@@ -166,6 +166,42 @@ const sampleData = {
       orderPriority: 2,
     },
   ],
+  technicalOverview: {
+    _type: "technicalOverview",
+    title: "Technical Overview",
+    subtitle: "How this portfolio was built and the technologies behind it.",
+    techStack: [
+      { name: "Next.js", description: "React framework for server-rendered and static web applications.", icon: "Layers", version: "16", website: "https://nextjs.org", category: "Frontend", order: 1 },
+      { name: "React", description: "Component-based UI library for building interactive interfaces.", icon: "Code2", version: "19", website: "https://react.dev", category: "Frontend", order: 2 },
+      { name: "TypeScript", description: "Type-safe JavaScript for scalable, maintainable code.", icon: "Code2", version: "5", website: "https://www.typescriptlang.org", category: "Frontend", order: 3 },
+      { name: "Tailwind CSS", description: "Utility-first CSS framework for rapid UI development.", icon: "Palette", version: "4", website: "https://tailwindcss.com", category: "Styling", order: 4 },
+      { name: "Supabase", description: "Open-source Firebase alternative for auth, database, and storage.", icon: "Database", website: "https://supabase.com", category: "Backend / Database", order: 5 },
+      { name: "Sanity", description: "Headless CMS for structured content management.", icon: "Server", website: "https://sanity.io", category: "CMS", order: 6 },
+      { name: "Google Analytics 4", description: "Web analytics for tracking visitor behavior and performance.", icon: "BarChart3", website: "https://analytics.google.com", category: "Analytics", order: 7 },
+      { name: "Vercel", description: "Cloud platform for frontend frameworks and static sites.", icon: "Cloud", website: "https://vercel.com", category: "Deployment", order: 8 },
+    ],
+    aiTools: [
+      { name: "OpenCode", description: "AI-powered coding assistant for rapid development and debugging.", icon: "Bot", website: "https://opencode.ai", order: 1 },
+      { name: "DeepSeek", description: "LLM used for code generation, architecture planning, and problem-solving.", icon: "Brain", order: 2 },
+      { name: "Gemini", description: "Google's AI model used for content drafting and research.", icon: "Sparkles", order: 3 },
+      { name: "GPT", description: "OpenAI's language model for code reviews and technical writing.", icon: "Brain", order: 4 },
+    ],
+    architecture: [
+      { name: "Next.js + Sanity + Supabase", description: "Full-stack architecture with server-side rendering, headless CMS, and database.", icon: "Layers", order: 1 },
+      { name: "GA4 Integration", description: "Client-side analytics with custom event tracking and web vitals.", icon: "BarChart3", order: 2 },
+      { name: "ISR Strategy", description: "Incremental Static Regeneration for optimal performance and freshness.", icon: "Zap", order: 3 },
+    ],
+    highlights: [
+      { name: "Responsive Design", description: "Mobile-first layout with slide-out drawer, flexible grids, and adaptive spacing.", icon: "Smartphone", order: 1 },
+      { name: "SEO Optimized", description: "Meta tags, Open Graph, semantic HTML, and structured data for search engines.", icon: "Search", order: 2 },
+      { name: "Performance", description: "Optimized images, code splitting, and ISR for fast load times.", icon: "Gauge", order: 3 },
+      { name: "Accessibility", description: "WCAG-compliant with ARIA labels, keyboard navigation, and screen reader support.", icon: "Shield", order: 4 },
+      { name: "Dark Mode", description: "Theme toggle with system preference detection and localStorage persistence.", icon: "Monitor", order: 5 },
+    ],
+    deployment: [
+      { name: "Vercel", description: "Zero-config deployment with automatic previews and CI/CD.", icon: "Cloud", website: "https://vercel.com", order: 1 },
+    ],
+  },
 };
 
 async function seed() {
@@ -208,6 +244,18 @@ async function seed() {
     for (const book of sampleData.books) {
       await client.create(book);
       console.log(`  ✓ Created: ${book.title}`);
+    }
+
+    // Seed technical overview (singleton — create or update)
+    console.log("\n🔧 Seeding technical overview...");
+    const existing = await client.fetch('*[_type == "technicalOverview"][0]._id');
+    const { _type, ...rest } = sampleData.technicalOverview;
+    if (existing) {
+      await client.patch(existing).set(rest).commit();
+      console.log("  ✓ Updated technical overview");
+    } else {
+      await client.create(sampleData.technicalOverview);
+      console.log("  ✓ Created technical overview");
     }
 
     console.log("\n✅ Seeding complete!");

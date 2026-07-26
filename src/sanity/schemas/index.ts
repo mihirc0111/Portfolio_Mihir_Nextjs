@@ -4,6 +4,7 @@ import book from "./book";
 import hero from "./hero";
 import about from "./about";
 import skillCategory from "./skillCategory";
+import technicalOverview from "./technicalOverview";
 
 export const schemaTypes = [
   project,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   hero,
   about,
   skillCategory,
+  technicalOverview,
 ];
