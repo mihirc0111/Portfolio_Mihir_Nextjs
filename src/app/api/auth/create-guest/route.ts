@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import bcrypt from "bcryptjs";
 
 function generateSecurePassword(length = 16) {
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     const passwordHash = await bcrypt.hash(guestPassword, 10);
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    const { data: guestUser, error } = await supabase
+    const { data: guestUser, error } = await supabaseAdmin
       .from("users")
       .insert({
         email: guestEmail,
