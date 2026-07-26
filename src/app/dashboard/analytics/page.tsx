@@ -9,8 +9,8 @@ const AnalyticsCharts = dynamic(() => import("@/components/dashboard/AnalyticsCh
   loading: () => (
     <div className="space-y-6">
       <div className="h-64 animate-pulse rounded-xl border border-border bg-surface" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 3 }).map((_, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {Array.from({ length: 4 }).map((_, index) => (
           <div key={index} className="h-48 animate-pulse rounded-xl border border-border bg-surface" />
         ))}
       </div>
@@ -27,6 +27,7 @@ interface DashboardData {
   };
   dailyViews: { date: string; views: number }[];
   topPages: { page: string; views: number }[];
+  sourceBreakdown: { name: string; count: number }[];
   deviceBreakdown: { name: string; count: number }[];
   browserBreakdown: { name: string; count: number }[];
   osBreakdown: { name: string; count: number }[];

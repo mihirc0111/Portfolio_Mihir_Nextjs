@@ -119,6 +119,24 @@ export async function GET(request: NextRequest) {
     const browserBreakdown = Array.from(browserCountMap.entries()).map(([name, count]) => ({ name, count }));
     const osBreakdown = Array.from(osCountMap.entries()).map(([name, count]) => ({ name, count }));
 
+    // Source breakdown (filtered by period)
+    const { data: sourceData } = await supabase
+      .from("analytics_events")
+      .select("source")
+      .eq("event_type", "page_view")
+      .gte("timestamp", startISO)
+      .not("source", "is", null);
+
+    const sourceCountMap = new Map<string, number>();
+    sourceData?.forEach((event) => {
+      const name = event.source || "Direct";
+      sourceCountMap.set(name, (sourceCountMap.get(name) || 0) + 1);
+    });
+
+    const sourceBreakdown = Array.from(sourceCountMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+
     // Web vitals
     const { data: vitalsData } = await supabase
       .from("web_vitals")
@@ -142,6 +160,7 @@ export async function GET(request: NextRequest) {
       },
       dailyViews,
       topPages,
+      sourceBreakdown,
       deviceBreakdown,
       browserBreakdown,
       osBreakdown,

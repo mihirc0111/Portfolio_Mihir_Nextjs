@@ -1,8 +1,7 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, Download } from "lucide-react";
 import type { SanityImageSource } from "@sanity/image-url";
 import { sanityFetchSingle, heroQuery, urlFor } from "@/lib/sanity";
+import HeroCtas from "./HeroCtas";
 
 interface HeroData {
   greeting?: string;
@@ -67,22 +66,7 @@ export default async function Hero() {
 
           <p className="text-xl text-muted max-w-2xl">{description}</p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition-colors"
-            >
-              {ctaPrimary}
-              <ArrowDown size={18} />
-            </Link>
-            <Link
-              href="/resume"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border font-medium hover:bg-surface transition-colors"
-            >
-              {ctaSecondary}
-              <Download size={18} />
-            </Link>
-          </div>
+          <HeroCtas ctaPrimary={ctaPrimary} ctaSecondary={ctaSecondary} />
         </div>
       </div>
     </section>

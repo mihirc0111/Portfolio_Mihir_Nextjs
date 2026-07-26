@@ -40,6 +40,8 @@ function getDeviceInfo() {
 async function trackPageView(pagePath: string) {
   try {
     const deviceInfo = getDeviceInfo();
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get("source") || localStorage.getItem("visit_source") || null;
 
     await fetch("/api/analytics/track", {
       method: "POST",
@@ -48,6 +50,7 @@ async function trackPageView(pagePath: string) {
         eventType: "page_view",
         pagePath,
         deviceInfo,
+        source,
         timestamp: new Date().toISOString(),
       }),
     });

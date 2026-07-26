@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { eventType, pagePath, deviceInfo, timestamp } = body;
+    const { eventType, pagePath, deviceInfo, source, timestamp } = body;
 
     if (!eventType || !pagePath) {
       return NextResponse.json(
@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
         event_type: eventType,
         page_path: pagePath,
         device_info: deviceInfo || null,
+        source: source || null,
         ip_address: ip,
         session_id: request.cookies.get("session_id")?.value || null,
         timestamp: timestamp || new Date().toISOString(),

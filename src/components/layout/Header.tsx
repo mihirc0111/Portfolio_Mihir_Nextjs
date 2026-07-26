@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, LogIn, LayoutDashboard, User, Sun, Moon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useSource } from "@/contexts/SourceContext";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,6 +22,10 @@ export default function Header() {
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
   const { theme, toggleTheme } = useTheme();
+  const { isResumeHidden } = useSource();
+  const visibleNavLinks = navLinks.filter(
+    (link) => !isResumeHidden || link.href !== "/resume"
+  );
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -34,7 +39,7 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -92,7 +97,7 @@ export default function Header() {
       {mobileOpen && (
         <nav className="md:hidden border-t border-border">
           <div className="container py-4 flex flex-col gap-4">
-            {navLinks.map((link) => (
+            {visibleNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

@@ -13,7 +13,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { Activity, Monitor, Smartphone, Tablet } from "lucide-react";
+import { Activity, Monitor, Smartphone, Tablet, Share2 } from "lucide-react";
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
 
@@ -27,6 +27,7 @@ const VITAL_THRESHOLDS: Record<string, { good: number; poor: number; unit: strin
 
 interface DashboardData {
   dailyViews: { date: string; views: number }[];
+  sourceBreakdown: { name: string; count: number }[];
   deviceBreakdown: { name: string; count: number }[];
   browserBreakdown: { name: string; count: number }[];
   osBreakdown: { name: string; count: number }[];
@@ -141,7 +142,8 @@ export default function AnalyticsCharts({ data }: { data: DashboardData }) {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <PieChartCard title="Traffic Sources" data={data.sourceBreakdown} icon={Share2} />
         <PieChartCard title="Devices" data={data.deviceBreakdown} icon={Monitor} />
         <PieChartCard title="Browsers" data={data.browserBreakdown} icon={Smartphone} />
         <PieChartCard title="Operating Systems" data={data.osBreakdown} icon={Tablet} />
