@@ -1,6 +1,21 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { supabase } from "@/lib/supabase";
+
+type UserRole = "admin" | "guest";
+type DbUser = { id: string; email: string; name?: string; password_hash: string; role: UserRole; company?: string };
+type AppUser = { id: string; email: string; name?: string; role: UserRole; company?: string };
+
+declare module "next-auth" {
+  interface User {
+    role: UserRole;
+    company?: string;
+  }
+  interface Session {
+    user: User;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET || "your-secret-key-change-in-production",
@@ -16,48 +31,50 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        // Query Supabase users table
+        const email = credentials.email;
+        const password = String(credentials.password);
+
         const { data: users, error } = await supabase
           .from("users")
           .select("*")
-          .eq("email", credentials.email)
+          .eq("email", email)
           .limit(1);
 
         if (error || !users || users.length === 0) {
           return null;
         }
 
-        const user = users[0];
+        const dbUser = users[0] as DbUser;
 
-        // In production, you would verify the password hash here
-        // For now, we'll do a simple comparison (NOT SECURE - just for demo)
-        // In production, use bcrypt or similar
-        if (credentials.password !== user.password_hash) {
+        // Verify password hash with bcrypt
+        const passwordHash = dbUser.password_hash ? String(dbUser.password_hash) : "";
+        const isPasswordValid = await bcrypt.compare(password, passwordHash);
+        if (!isPasswordValid) {
           return null;
         }
 
         return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          company: user.company,
-        };
+          id: dbUser.id,
+          email: dbUser.email,
+          name: dbUser.name,
+          role: dbUser.role,
+          company: dbUser.company,
+        } as AppUser;
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
-        token.company = (user as any).company;
+        token.role = (user as AppUser).role;
+        token.company = (user as AppUser).company;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).company = token.company;
+        session.user.role = token.role as UserRole;
+        session.user.company = token.company as string | undefined;
       }
       return session;
     },

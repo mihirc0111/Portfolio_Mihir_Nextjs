@@ -43,6 +43,12 @@ export default async function DashboardLayout({
               Analytics
             </a>
             <a
+              href="/dashboard/guests"
+              className="block px-4 py-2 rounded-lg hover:bg-background transition-colors"
+            >
+              Guests
+            </a>
+            <a
               href="/dashboard/settings"
               className="block px-4 py-2 rounded-lg hover:bg-background transition-colors"
             >
