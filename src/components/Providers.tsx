@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { Provider } from "react-redux";
 import { SessionProvider } from "next-auth/react";
 import { store } from "@/store/store";
 import { useAnalytics, initGA } from "@/lib/analytics";
 import { useWebVitals } from "@/lib/webVitals";
 
-function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+function AnalyticsContent({ children }: { children: React.ReactNode }) {
   useAnalytics();
   useWebVitals();
 
@@ -16,6 +16,14 @@ function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return <>{children}</>;
+}
+
+function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={null}>
+      <AnalyticsContent>{children}</AnalyticsContent>
+    </Suspense>
+  );
 }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
