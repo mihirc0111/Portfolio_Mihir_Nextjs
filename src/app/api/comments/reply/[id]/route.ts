@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import nodemailer from "nodemailer";
 
@@ -30,6 +31,15 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await auth();
+    const role = (session?.user as { role?: string } | undefined)?.role;
+    if (!session || role === "guest") {
+      return NextResponse.json(
+        { error: "Guests are not allowed to reply to comments" },
+        { status: 403 }
+      );
+    }
+
     const { id } = await params;
     const { replyMessage } = await request.json();
 
