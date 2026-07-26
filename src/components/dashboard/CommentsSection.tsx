@@ -1,6 +1,11 @@
 "use client";
 
-import CommentDisplay from "@/components/forms/CommentDisplay";
+import dynamic from "next/dynamic";
+
+const CommentDisplay = dynamic(() => import("@/components/forms/CommentDisplay"), {
+  ssr: false,
+  loading: () => <div className="h-40 animate-pulse rounded-lg border border-border bg-background/60" />,
+});
 
 export default function DashboardComments({ currentUserRole }: { currentUserRole?: string }) {
   return (

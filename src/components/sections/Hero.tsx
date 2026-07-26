@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowDown, Download } from "lucide-react";
 import { sanityFetchSingle, heroQuery, urlFor } from "@/lib/sanity";
 
@@ -35,9 +36,13 @@ export default async function Hero() {
           {/* Profile Image */}
           <div className="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary overflow-hidden">
             {hero?.profileImage && urlFor(hero.profileImage) ? (
-              <img
+              <Image
                 src={urlFor(hero.profileImage)!.width(128).height(128).url()}
                 alt={name}
+                width={128}
+                height={128}
+                priority
+                sizes="128px"
                 className="w-full h-full object-cover"
               />
             ) : (

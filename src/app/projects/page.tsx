@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { sanityFetch, projectsQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { ExternalLink, GitBranch, ArrowRight, Code2 } from "lucide-react";
@@ -39,9 +40,12 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Cover Image */}
       <div className="aspect-video bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
         {project.coverImage && urlFor(project.coverImage) ? (
-          <img
+          <Image
             src={urlFor(project.coverImage)!.width(600).height(340).url()}
             alt={project.title}
+            width={600}
+            height={340}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (

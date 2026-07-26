@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { sanityFetch, sanityFetchSingle, readingBookQuery, readBooksQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { BookOpen, Star, Calendar, ArrowRight } from "lucide-react";
@@ -51,9 +52,12 @@ function BookCard({ book }: { book: Book }) {
       {/* Cover */}
       <div className="aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden mb-3">
         {book.coverImage && urlFor(book.coverImage) ? (
-          <img
+          <Image
             src={urlFor(book.coverImage)!.width(200).height(300).url()}
             alt={book.title}
+            width={200}
+            height={300}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             className="w-full h-full object-cover"
           />
         ) : (
@@ -97,9 +101,12 @@ export default async function BooksPage() {
                 <div className="flex gap-4">
                   <div className="shrink-0 w-20 aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
                     {reading.coverImage && urlFor(reading.coverImage) ? (
-                      <img
+                      <Image
                         src={urlFor(reading.coverImage)!.width(160).height(240).url()}
                         alt={reading.title}
+                        width={160}
+                        height={240}
+                        sizes="160px"
                         className="w-full h-full object-cover"
                       />
                     ) : (
