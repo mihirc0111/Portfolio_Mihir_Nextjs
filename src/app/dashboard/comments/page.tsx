@@ -1,6 +1,10 @@
 import DashboardComments from "@/components/dashboard/CommentsSection";
+import { auth } from "@/lib/auth";
 
-export default function CommentsPage() {
+export default async function CommentsPage() {
+  const session = await auth();
+  const role = (session?.user as { role?: string } | undefined)?.role;
+
   return (
     <div>
       <div className="mb-8">
@@ -9,7 +13,7 @@ export default function CommentsPage() {
           Manage and review all visitor comments.
         </p>
       </div>
-      <DashboardComments />
+      <DashboardComments currentUserRole={role} />
     </div>
   );
 }

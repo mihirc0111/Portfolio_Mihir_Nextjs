@@ -11,13 +11,13 @@ const statusFilters = [
   { value: "replied", label: "Replied" },
 ];
 
-function CommentCard({ comment }: { comment: Comment & { userRole?: string } }) {
+function CommentCard({ comment, currentUserRole }: { comment: Comment & { userRole?: string }; currentUserRole?: string }) {
   const [deleteComment, { isLoading: isDeleting }] = useDeleteCommentMutation();
   const [replyComment, { isLoading: isReplying }] = useReplyCommentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyMessage, setReplyMessage] = useState("");
-  const isGuest = comment.userRole === "guest";
+  const isGuestUser = currentUserRole === "guest";
 
   const formattedDate = new Date(comment.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -72,7 +72,7 @@ function CommentCard({ comment }: { comment: Comment & { userRole?: string } }) 
           <p className="text-xs text-muted mt-0.5">{formattedDate}</p>
         </div>
         <div className="flex items-center gap-1 ml-2">
-          {!isGuest && comment.status !== "replied" && (
+          {!isGuestUser && comment.status !== "replied" && (
             <button
               onClick={() => setShowReplyForm(!showReplyForm)}
               disabled={isReplying}
@@ -82,7 +82,7 @@ function CommentCard({ comment }: { comment: Comment & { userRole?: string } }) 
               <Reply size={16} />
             </button>
           )}
-          {!isGuest && (
+          {!isGuestUser && (
             <div className="relative">
               <button
                 onClick={() => setShowConfirm(true)}
@@ -179,7 +179,7 @@ function CommentSkeleton() {
   );
 }
 
-export default function CommentDisplay() {
+export default function CommentDisplay({ currentUserRole }: { currentUserRole?: string } = {}) {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -263,7 +263,7 @@ export default function CommentDisplay() {
         <>
           <div className="space-y-3">
             {data.comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} />
+              <CommentCard key={comment.id} comment={comment} currentUserRole={currentUserRole} />
             ))}
           </div>
 
