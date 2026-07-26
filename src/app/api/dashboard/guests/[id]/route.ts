@@ -15,6 +15,13 @@ export async function DELETE(
       );
     }
 
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: "Server configuration error" },
+        { status: 500 }
+      );
+    }
+
     const { error } = await supabaseAdmin
       .from("users")
       .delete()

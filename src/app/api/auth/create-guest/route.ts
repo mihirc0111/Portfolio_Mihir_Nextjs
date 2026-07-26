@@ -25,6 +25,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: "Server configuration error" },
+        { status: 500 }
+      );
+    }
+
     const guestEmail = `guest-${Date.now()}@temp.com`;
     const guestPassword = generateSecurePassword();
     const passwordHash = await bcrypt.hash(guestPassword, 10);

@@ -3,6 +3,13 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export async function GET() {
   try {
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: "Server configuration error" },
+        { status: 500 }
+      );
+    }
+
     const { data, error } = await supabaseAdmin
       .from("users")
       .select("id, email, role, company, expires_at, created_at")
