@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { Menu, X, LogIn, LayoutDashboard, User, Sun, Moon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useSource } from "@/contexts/SourceContext";
+
+const RESUME_ROLES = ["admin", "super_guest"];
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -24,9 +25,11 @@ export default function Header() {
   const isLoginPage = pathname === "/login";
   const isDashboard = pathname.startsWith("/dashboard");
   const { theme, toggleTheme } = useTheme();
-  const { isResumeHidden } = useSource();
+
+  const userRole = (session?.user as { role?: string })?.role;
+  const canViewResume = !!userRole && RESUME_ROLES.includes(userRole);
   const visibleNavLinks = navLinks.filter(
-    (link) => !isResumeHidden || link.href !== "/resume"
+    (link) => canViewResume || link.href !== "/resume"
   );
 
   useEffect(() => {

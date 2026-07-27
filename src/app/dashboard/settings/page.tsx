@@ -21,7 +21,7 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-muted mb-1">
               Name
             </label>
-            <p className="text-foreground break-all">{session?.user?.name || "Not set"}</p>
+            <p className="text-foreground break-all">{session?.user?.name || (session?.user as { company?: string })?.company || "Not set"}</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-muted mb-1">

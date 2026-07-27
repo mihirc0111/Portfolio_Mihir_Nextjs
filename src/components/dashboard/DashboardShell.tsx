@@ -4,11 +4,14 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ExternalLink } from "lucide-react";
 import { SignOutButton } from "@/components/SignOutButton";
+import { useSession } from "next-auth/react";
 
 interface Props {
   children: React.ReactNode;
   userEmail: string;
 }
+
+const RESUME_ROLES = ["admin", "super_guest"];
 
 const navLinks = [
   { href: "/dashboard", label: "Overview" },
@@ -29,7 +32,14 @@ const siteLinks = [
 
 export default function DashboardShell({ children, userEmail }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
   const pathname = usePathname();
+
+  const userRole = (session?.user as { role?: string })?.role;
+  const canViewResume = !!userRole && RESUME_ROLES.includes(userRole);
+  const visibleSiteLinks = siteLinks.filter(
+    (link) => canViewResume || link.href !== "/resume"
+  );
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -62,7 +72,7 @@ export default function DashboardShell({ children, userEmail }: Props) {
           <span className="text-lg font-bold">Dashboard</span>
         </div>
         <div className="flex items-center gap-1 px-4 pb-3 overflow-x-auto scrollbar-hide">
-          {siteLinks.map((link) => (
+          {visibleSiteLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}

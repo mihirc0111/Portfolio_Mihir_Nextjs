@@ -9,9 +9,9 @@ export async function DELETE(
   try {
     const session = await auth();
     const role = (session?.user as { role?: string } | undefined)?.role;
-    if (!session || role === "guest") {
+    if (!session || role !== "admin") {
       return NextResponse.json(
-        { error: "Guests are not allowed to delete comments" },
+        { error: "Only admins are allowed to delete comments" },
         { status: 403 }
       );
     }

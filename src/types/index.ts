@@ -64,7 +64,7 @@ export interface WebVital {
 export interface User {
   id: string;
   email: string;
-  role: "admin" | "guest";
+  role: "admin" | "guest" | "super_guest";
   name?: string;
   company?: string;
 }

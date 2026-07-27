@@ -17,6 +17,7 @@ export default function GuestsPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [company, setCompany] = useState("");
+  const [role, setRole] = useState<"guest" | "super_guest">("guest");
   const [creating, setCreating] = useState(false);
   const [newGuest, setNewGuest] = useState<{ email: string; password: string } | null>(null);
   const [copied, setCopied] = useState(false);
@@ -52,13 +53,14 @@ export default function GuestsPage() {
       const res = await fetch("/api/auth/create-guest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ company: company.trim() }),
+        body: JSON.stringify({ company: company.trim(), role }),
       });
 
       const data = await res.json();
       if (res.ok) {
         setNewGuest({ email: data.email, password: data.password });
         setCompany("");
+        setRole("guest");
         setShowForm(false);
         fetchGuests();
       } else {
@@ -94,6 +96,14 @@ export default function GuestsPage() {
       day: "numeric",
     });
   };
+
+  const roleLabel = (r: string) =>
+    r === "super_guest" ? "Super Guest" : "Guest";
+
+  const roleBadgeClass = (r: string) =>
+    r === "super_guest"
+      ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+      : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300";
 
   if (loading) {
     return (
@@ -163,29 +173,41 @@ export default function GuestsPage() {
       {showForm && (
         <div className="mb-6 p-4 rounded-lg border border-border bg-surface">
           <h3 className="text-sm font-semibold mb-3">Create New Guest</h3>
-          <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="text"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="Company / Person name"
-              className="flex-1 px-3 py-2 text-sm rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-              required
-            />
-            <button
-              type="submit"
-              disabled={creating || !company.trim()}
-              className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors disabled:opacity-50"
-            >
-              {creating ? "Creating..." : "Create"}
-            </button>
-            <button
-              type="button"
-              onClick={() => { setShowForm(false); setCompany(""); }}
-              className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-surface transition-colors"
-            >
-              Cancel
-            </button>
+          <form onSubmit={handleCreate} className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Company / Person name"
+                className="flex-1 px-3 py-2 text-sm rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value as "guest" | "super_guest")}
+                className="px-3 py-2 text-sm rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="guest">Guest</option>
+                <option value="super_guest">Super Guest</option>
+              </select>
+            </div>
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                disabled={creating || !company.trim()}
+                className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors disabled:opacity-50"
+              >
+                {creating ? "Creating..." : "Create"}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowForm(false); setCompany(""); setRole("guest"); }}
+                className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-surface transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       )}
@@ -205,7 +227,12 @@ export default function GuestsPage() {
                 className="p-4 flex items-center justify-between hover:bg-background/50 transition-colors"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{guest.email}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium truncate">{guest.email}</p>
+                    <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full font-medium ${roleBadgeClass(guest.role)}`}>
+                      {roleLabel(guest.role)}
+                    </span>
+                  </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mt-1">
                     <span className="text-xs text-muted truncate">{guest.company}</span>
                     <span className="text-xs text-muted shrink-0">

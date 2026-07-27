@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { supabase } from "@/lib/supabase";
 
-type UserRole = "admin" | "guest";
+type UserRole = "admin" | "guest" | "super_guest";
 type DbUser = { id: string; email: string; name?: string; password_hash: string; role: UserRole; company?: string };
 type AppUser = { id: string; email: string; name?: string; role: UserRole; company?: string };
 

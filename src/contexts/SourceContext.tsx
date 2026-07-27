@@ -3,16 +3,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const STORAGE_KEY = "visit_source";
-const HIDDEN_SOURCES = ["instagram"];
 
 interface SourceContextType {
   source: string | null;
-  isResumeHidden: boolean;
 }
 
 const SourceContext = createContext<SourceContextType>({
   source: null,
-  isResumeHidden: false,
 });
 
 export function SourceProvider({ children }: { children: React.ReactNode }) {
@@ -32,10 +29,8 @@ export function SourceProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const isResumeHidden = source !== null && HIDDEN_SOURCES.includes(source);
-
   return (
-    <SourceContext.Provider value={{ source, isResumeHidden }}>
+    <SourceContext.Provider value={{ source }}>
       {children}
     </SourceContext.Provider>
   );

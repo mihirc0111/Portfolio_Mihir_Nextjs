@@ -13,7 +13,7 @@ export async function GET() {
     const { data, error } = await supabaseAdmin
       .from("users")
       .select("id, email, role, company, expires_at, created_at")
-      .eq("role", "guest")
+      .in("role", ["guest", "super_guest"])
       .order("created_at", { ascending: false });
 
     if (error) {

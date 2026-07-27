@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { ArrowDown, Download } from "lucide-react";
-import { useSource } from "@/contexts/SourceContext";
+import { useSession } from "next-auth/react";
+
+const RESUME_ROLES = ["admin", "super_guest"];
 
 interface Props {
   ctaPrimary: string;
@@ -10,7 +12,9 @@ interface Props {
 }
 
 export default function HeroCtas({ ctaPrimary, ctaSecondary }: Props) {
-  const { isResumeHidden } = useSource();
+  const { data: session } = useSession();
+  const userRole = (session?.user as { role?: string })?.role;
+  const canViewResume = !!userRole && RESUME_ROLES.includes(userRole);
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 mt-4">
@@ -21,7 +25,7 @@ export default function HeroCtas({ ctaPrimary, ctaSecondary }: Props) {
         {ctaPrimary}
         <ArrowDown size={18} />
       </Link>
-      {!isResumeHidden && (
+      {canViewResume && (
         <Link
           href="/resume"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border font-medium hover:bg-surface transition-colors"

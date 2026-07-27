@@ -17,7 +17,7 @@ function CommentCard({ comment, currentUserRole }: { comment: Comment & { userRo
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyMessage, setReplyMessage] = useState("");
-  const isGuestUser = currentUserRole === "guest";
+  const isAdmin = currentUserRole === "admin";
 
   const formattedDate = new Date(comment.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -72,7 +72,7 @@ function CommentCard({ comment, currentUserRole }: { comment: Comment & { userRo
           <p className="text-xs text-muted mt-0.5">{formattedDate}</p>
         </div>
         <div className="flex items-center gap-1 ml-2">
-          {!isGuestUser && comment.status !== "replied" && (
+          {isAdmin && comment.status !== "replied" && (
             <button
               onClick={() => setShowReplyForm(!showReplyForm)}
               disabled={isReplying}
@@ -82,7 +82,7 @@ function CommentCard({ comment, currentUserRole }: { comment: Comment & { userRo
               <Reply size={16} />
             </button>
           )}
-          {!isGuestUser && (
+          {isAdmin && (
             <div className="relative">
               <button
                 onClick={() => setShowConfirm(true)}

@@ -26,7 +26,7 @@ export async function DELETE(
       .from("users")
       .delete()
       .eq("id", id)
-      .eq("role", "guest");
+      .in("role", ["guest", "super_guest"]);
 
     if (error) {
       console.error("Error deleting guest:", error);

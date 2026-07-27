@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import bcrypt from "bcryptjs";
 
+const ALLOWED_ROLES = ["guest", "super_guest"];
+
 function generateSecurePassword(length = 16) {
   const charset =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%";
@@ -16,11 +18,18 @@ function generateSecurePassword(length = 16) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { company } = body;
+    const { company, role = "guest" } = body;
 
     if (!company || typeof company !== "string" || company.trim().length < 2) {
       return NextResponse.json(
         { error: "Company name is required (min 2 characters)" },
+        { status: 400 }
+      );
+    }
+
+    if (!ALLOWED_ROLES.includes(role)) {
+      return NextResponse.json(
+        { error: `Invalid role. Allowed: ${ALLOWED_ROLES.join(", ")}` },
         { status: 400 }
       );
     }
@@ -42,7 +51,7 @@ export async function POST(request: NextRequest) {
       .insert({
         email: guestEmail,
         password_hash: passwordHash,
-        role: "guest",
+        role,
         company: company.trim(),
         expires_at: expiresAt.toISOString(),
       })

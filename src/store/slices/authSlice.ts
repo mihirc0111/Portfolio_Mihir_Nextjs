@@ -4,7 +4,7 @@ interface User {
   id: string;
   email: string;
   name?: string;
-  role: "admin" | "guest";
+  role: "admin" | "guest" | "super_guest";
   company?: string;
 }
 
