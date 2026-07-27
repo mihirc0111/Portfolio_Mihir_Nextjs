@@ -137,17 +137,19 @@ export async function GET(request: NextRequest) {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
 
-    // Web vitals
+    // Web vitals — grouped by page path
     const { data: vitalsData } = await supabase
       .from("web_vitals")
       .select("*")
       .order("timestamp", { ascending: false })
-      .limit(100);
+      .limit(500);
 
-    const latestVitals: Record<string, { value: number; rating: string }> = {};
+    const vitalsByPage: Record<string, Record<string, { value: number; rating: string }>> = {};
     vitalsData?.forEach((v) => {
-      if (!latestVitals[v.metric_name]) {
-        latestVitals[v.metric_name] = { value: v.metric_value, rating: v.rating };
+      const page = v.page_path || "/";
+      if (!vitalsByPage[page]) vitalsByPage[page] = {};
+      if (!vitalsByPage[page][v.metric_name]) {
+        vitalsByPage[page][v.metric_name] = { value: v.metric_value, rating: v.rating };
       }
     });
 
@@ -164,7 +166,7 @@ export async function GET(request: NextRequest) {
       deviceBreakdown,
       browserBreakdown,
       osBreakdown,
-      webVitals: latestVitals,
+      webVitals: vitalsByPage,
     });
   } catch (error) {
     console.error("Error in GET /api/analytics/dashboard:", error);

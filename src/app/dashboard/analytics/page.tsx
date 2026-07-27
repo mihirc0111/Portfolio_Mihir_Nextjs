@@ -31,7 +31,7 @@ interface DashboardData {
   deviceBreakdown: { name: string; count: number }[];
   browserBreakdown: { name: string; count: number }[];
   osBreakdown: { name: string; count: number }[];
-  webVitals: Record<string, { value: number; rating: string }>;
+  webVitals: Record<string, Record<string, { value: number; rating: string }>>;
 }
 
 function StatCard({ title, value, icon: Icon, subtitle }: { title: string; value: string | number; icon: React.ElementType; subtitle?: string }) {

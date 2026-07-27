@@ -13,7 +13,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { Activity, Monitor, Smartphone, Tablet, Share2 } from "lucide-react";
+import { Activity, Monitor, Smartphone, Tablet, Share2, Globe } from "lucide-react";
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
 
@@ -25,13 +25,15 @@ const VITAL_THRESHOLDS: Record<string, { good: number; poor: number; unit: strin
   TTFB: { good: 800, poor: 1800, unit: "ms" },
 };
 
+const METRICS = ["LCP", "FCP", "CLS", "INP", "TTFB"];
+
 interface DashboardData {
   dailyViews: { date: string; views: number }[];
   sourceBreakdown: { name: string; count: number }[];
   deviceBreakdown: { name: string; count: number }[];
   browserBreakdown: { name: string; count: number }[];
   osBreakdown: { name: string; count: number }[];
-  webVitals: Record<string, { value: number; rating: string }>;
+  webVitals: Record<string, Record<string, { value: number; rating: string }>>;
 }
 
 function PieChartCard({ title, data, icon: Icon }: { title: string; data: { name: string; count: number }[]; icon: ElementType }) {
@@ -76,35 +78,75 @@ function PieChartCard({ title, data, icon: Icon }: { title: string; data: { name
   );
 }
 
-function VitalsCard({ vitals }: { vitals: Record<string, { value: number; rating: string }> }) {
-  const metrics = ["LCP", "FCP", "CLS", "INP", "TTFB"];
+function formatVitalValue(name: string, value: number): string {
+  const thresholds = VITAL_THRESHOLDS[name];
+  return thresholds?.unit === "ms" ? `${Math.round(value)}ms` : value.toFixed(2);
+}
+
+const ratingColor = { good: "text-green-500", "needs-improvement": "text-yellow-500", poor: "text-red-500" };
+const ratingDot = { good: "bg-green-500", "needs-improvement": "bg-yellow-500", poor: "bg-red-500" };
+const ratingLabel = { good: "Good", "needs-improvement": "Needs Improvement", poor: "Poor" };
+
+function PageVitalsTable({ vitals }: { vitals: Record<string, Record<string, { value: number; rating: string }>> }) {
+  const pages = Object.entries(vitals);
+
+  if (pages.length === 0) return null;
 
   return (
-    <div className="bg-surface border border-border rounded-xl p-5 mt-8">
+    <div className="bg-surface border border-border rounded-xl p-5 mt-6">
       <div className="flex items-center gap-2 mb-4">
-        <Activity size={16} className="text-primary" />
-        <h3 className="text-sm font-semibold">Web Vitals</h3>
+        <Globe size={16} className="text-primary" />
+        <h3 className="text-sm font-semibold">Web Vitals by Page</h3>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {metrics.map((name) => {
-          const vital = vitals[name];
-          const thresholds = VITAL_THRESHOLDS[name];
-          const value = vital?.value ?? 0;
-          const rating = vital?.rating ?? "good";
-
-          const colorMap = { good: "text-green-500", "needs-improvement": "text-yellow-500", poor: "text-red-500" };
-          const bgMap = { good: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800", "needs-improvement": "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800", poor: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800" };
-
-          return (
-            <div key={name} className={`p-3 rounded-lg border ${bgMap[rating as keyof typeof bgMap] || bgMap.good}`}>
-              <p className="text-xs text-muted mb-1">{name}</p>
-              <p className={`text-lg font-bold ${colorMap[rating as keyof typeof colorMap] || colorMap.good}`}>
-                {thresholds?.unit === "ms" ? `${Math.round(value)}ms` : value.toFixed(2)}
-              </p>
-              <p className="text-xs text-muted capitalize mt-0.5">{rating.replace("-", " ")}</p>
-            </div>
-          );
-        })}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="text-left py-2 pr-4 text-muted font-medium text-xs uppercase tracking-wider">Page</th>
+              {METRICS.map((m) => (
+                <th key={m} className="text-right py-2 px-2 text-muted font-medium text-xs uppercase tracking-wider">{m}</th>
+              ))}
+              <th className="text-right py-2 pl-2 text-muted font-medium text-xs uppercase tracking-wider">Remark</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {pages.map(([page, metrics]) => (
+              <tr key={page} className="hover:bg-background/50 transition-colors">
+                <td className="py-3 pr-4 font-medium text-xs truncate max-w-[160px]">{page}</td>
+                {METRICS.map((metricName) => {
+                  const vital = metrics[metricName];
+                  if (!vital) {
+                    return <td key={metricName} className="text-right py-3 px-2 text-muted">—</td>;
+                  }
+                  const dotClass = ratingDot[vital.rating as keyof typeof ratingDot] || ratingDot.good;
+                  const colorClass = ratingColor[vital.rating as keyof typeof ratingColor] || ratingColor.good;
+                  return (
+                    <td key={metricName} className={`text-right py-3 px-2 ${colorClass}`}>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotClass}`} />
+                        {formatVitalValue(metricName, vital.value)}
+                      </span>
+                    </td>
+                  );
+                })}
+                <td className="text-right py-3 pl-2">
+                  {(() => {
+                    const ratings = METRICS.map((m) => metrics[m]?.rating).filter(Boolean);
+                    const worst = ratings.includes("poor") ? "poor" : ratings.includes("needs-improvement") ? "needs-improvement" : "good";
+                    const dotClass = ratingDot[worst as keyof typeof ratingDot] || ratingDot.good;
+                    const colorClass = ratingColor[worst as keyof typeof ratingColor] || ratingColor.good;
+                    return (
+                      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${colorClass}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotClass}`} />
+                        {ratingLabel[worst as keyof typeof ratingLabel] || "Good"}
+                      </span>
+                    );
+                  })()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -149,7 +191,7 @@ export default function AnalyticsCharts({ data }: { data: DashboardData }) {
         <PieChartCard title="Operating Systems" data={data.osBreakdown} icon={Tablet} />
       </div>
 
-      <VitalsCard vitals={data.webVitals} />
+      <PageVitalsTable vitals={data.webVitals} />
     </div>
   );
 }
