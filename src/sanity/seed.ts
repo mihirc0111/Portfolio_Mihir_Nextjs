@@ -166,6 +166,56 @@ const sampleData = {
       orderPriority: 2,
     },
   ],
+  whatsNext: {
+    _type: "whatsNext",
+    title: "What's Next",
+    subtitle: "Upcoming features and additions planned for this portfolio.",
+    items: [
+      {
+        title: "Blog Section",
+        description: "A dedicated blog to share technical articles, tutorials, and insights about frontend development, React, and Next.js.",
+        status: "in-progress",
+        eta: "Q1 2026",
+        order: 1,
+      },
+      {
+        title: "Favourite Movies & Series List",
+        description: "A curated list of my favourite movies and series with ratings, reviews, and recommendations — a fun personal touch to the portfolio.",
+        status: "planned",
+        eta: "Q2 2026",
+        order: 2,
+      },
+      {
+        title: "Travel Photography Gallery",
+        description: "A visual gallery of travel photos with location tags and stories from memorable trips.",
+        status: "planned",
+        eta: "Q2 2026",
+        order: 3,
+      },
+    ],
+  },
+  skillsRadar: {
+    _type: "skillsRadar",
+    title: "Skills on my Radar",
+    subtitle: "Skills and technologies I am planning to learn or currently exploring.",
+    items: [
+      {
+        name: "AWS Certified Developer – Associate",
+        category: "Cloud & DevOps",
+        description: "Earning the AWS Certified Developer – Associate certification to deepen cloud infrastructure, serverless architecture, and deployment automation expertise.",
+        resourceUrl: "https://aws.amazon.com/certification/",
+        priority: "high",
+        order: 1,
+      },
+      {
+        name: "System Architecture & Design",
+        category: "Architecture",
+        description: "Studying distributed systems, microservices patterns, and large-scale system design for building robust, scalable applications.",
+        priority: "high",
+        order: 2,
+      },
+    ],
+  },
   technicalOverview: {
     _type: "technicalOverview",
     title: "Technical Overview",
@@ -244,6 +294,30 @@ async function seed() {
     for (const book of sampleData.books) {
       await client.create(book);
       console.log(`  ✓ Created: ${book.title}`);
+    }
+
+    // Seed what's next (singleton — create or update)
+    console.log("\n🔮 Seeding what's next...");
+    let existingSingletons = await client.fetch('*[_type == "whatsNext"][0]._id');
+    const whatsNextData = sampleData.whatsNext;
+    if (existingSingletons) {
+      await client.patch(existingSingletons).set(whatsNextData).commit();
+      console.log("  ✓ Updated what's next");
+    } else {
+      await client.create(whatsNextData);
+      console.log("  ✓ Created what's next");
+    }
+
+    // Seed skills on radar (singleton — create or update)
+    console.log("\n🎯 Seeding skills on my radar...");
+    existingSingletons = await client.fetch('*[_type == "skillsRadar"][0]._id');
+    const skillsData = sampleData.skillsRadar;
+    if (existingSingletons) {
+      await client.patch(existingSingletons).set(skillsData).commit();
+      console.log("  ✓ Updated skills on my radar");
+    } else {
+      await client.create(skillsData);
+      console.log("  ✓ Created skills on my radar");
     }
 
     // Seed technical overview (singleton — create or update)

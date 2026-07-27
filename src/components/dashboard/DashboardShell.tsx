@@ -27,6 +27,8 @@ const siteLinks = [
   { href: "/achievements", label: "Achievements" },
   { href: "/books", label: "Books" },
   { href: "/technical-overview", label: "Tech Overview" },
+  { href: "/whats-next", label: "What's Next" },
+  { href: "/skills-on-my-radar", label: "Skills on my Radar" },
   { href: "/resume", label: "Resume" },
 ];
 

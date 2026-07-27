@@ -121,6 +121,33 @@ export const skillCategoriesQuery = `*[_type == "skillCategory"] | order(orderPr
   skills
 }`;
 
+export const whatsNextQuery = `*[_type == "whatsNext"][0] {
+  _id,
+  title,
+  subtitle,
+  items[] | order(order asc) {
+    title,
+    description,
+    status,
+    eta,
+    order
+  }
+}`;
+
+export const skillsRadarQuery = `*[_type == "skillsRadar"][0] {
+  _id,
+  title,
+  subtitle,
+  items[] | order(order asc) {
+    name,
+    category,
+    description,
+    resourceUrl,
+    priority,
+    order
+  }
+}`;
+
 export const technicalOverviewQuery = `*[_type == "technicalOverview"][0] {
   _id,
   title,
