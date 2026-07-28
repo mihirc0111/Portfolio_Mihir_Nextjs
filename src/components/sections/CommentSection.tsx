@@ -11,7 +11,7 @@ export default function CommentSection() {
           <MessageSquare size={32} className="mx-auto text-primary mb-3" />
           <h2 className="text-3xl font-bold mb-2">Get In Touch</h2>
           <p className="text-muted max-w-md mx-auto">
-            Have a question, want to collaborate, or just want to say hi? Drop me a message!
+           Have a question, want to collaborate, explore my dashboard, or just say hi? Feel free to drop me a message!
           </p>
         </div>
 

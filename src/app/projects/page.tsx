@@ -5,6 +5,7 @@ import { sanityFetch, projectsQuery } from "@/lib/sanity";
 import { urlFor } from "@/lib/sanity";
 import { ExternalLink, GitBranch, ArrowRight, Code2 } from "lucide-react";
 import type { SanityImageSource } from "@sanity/image-url";
+import ReadMore from "@/components/ReadMore";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -69,9 +70,7 @@ function ProjectCard({ project }: { project: Project }) {
           </span>
         </div>
 
-        <p className="text-sm text-muted line-clamp-2 mb-4">
-          {project.description}
-        </p>
+        <ReadMore text={project.description} />
 
         {/* Tech Stack */}
         {project.techStack && project.techStack.length > 0 && (
@@ -126,8 +125,7 @@ export default async function ProjectsPage() {
         <div className="mb-10">
           <h1>Projects</h1>
           <p className="text-lg text-muted mt-1 max-w-2xl">
-            A collection of projects showcasing my skills in frontend
-            development, design, and problem-solving.
+            A collection of projects showcasing my journey as a software engineer, highlighting my approach to building scalable, user-focused applications and solving real-world problems.
           </p>
         </div>
 
