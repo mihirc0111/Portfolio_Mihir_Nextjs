@@ -28,7 +28,7 @@ const sampleData = {
     _type: "hero",
     greeting: "Hi, I'm",
     name: "Mihir Chavan",
-    tagline: "Frontend Developer",
+    tagline: "Software Developer",
     description:
       "I build fast, scalable, and user-centric web applications...",
     ctaPrimary: "View My Work",
@@ -142,9 +142,9 @@ const sampleData = {
   achievements: [
     {
       _type: "achievement",
-      title: "Frontend Developer at Axis Bank",
+      title: "Software Developer at Axis Bank",
       description:
-        "Working as a Frontend Developer at Axis Bank, building modern web applications with React and TypeScript.",
+        "Working as a Software Developer at Axis Bank, building modern web applications with React and TypeScript.",
       date: "2023-06-01",
       category: "achievement",
       issuer: "Axis Bank",

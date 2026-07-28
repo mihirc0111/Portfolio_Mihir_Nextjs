@@ -20,11 +20,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Mihir Chavan - Frontend Developer",
+    default: "Mihir Chavan - Software Developer",
     template: "%s | Mihir Chavan",
   },
   description:
-    "Frontend developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
+    "Software developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
   keywords: [
     "Mihir Chavan",
     "frontend developer",
@@ -37,18 +37,18 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Mihir Chavan" }],
   openGraph: {
-    title: "Mihir Chavan - Frontend Developer",
+    title: "Mihir Chavan - Software Developer",
     description:
-      "Frontend developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
+      "Software developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
     type: "website",
     locale: "en_US",
     siteName: "Mihir Chavan Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mihir Chavan - Frontend Developer",
+    title: "Mihir Chavan - Software Developer",
     description:
-      "Frontend developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
+      "Software developer specializing in React, Next.js, and TypeScript. Explore my portfolio showcasing projects, skills, and achievements.",
   },
   robots: {
     index: true,

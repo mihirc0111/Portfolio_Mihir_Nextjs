@@ -22,8 +22,8 @@ export default defineType({
       name: "tagline",
       title: "Tagline",
       type: "string",
-      description: "e.g., 'Frontend Developer'",
-      initialValue: "Frontend Developer",
+      description: "e.g., 'Software Developer'",
+      initialValue: "Software Developer",
     }),
     defineField({
       name: "description",

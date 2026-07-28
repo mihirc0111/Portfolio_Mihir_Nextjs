@@ -22,10 +22,10 @@ export default async function Hero() {
 
   const greeting = hero?.greeting || "Hi, I'm";
   const name = hero?.name || "Your Name";
-  const tagline = hero?.tagline || "Frontend Developer";
+  const tagline = hero?.tagline || "Software Developer";
   const description =
     hero?.description ||
-    "Frontend Developer specializing in building modern web applications with Next.js, TypeScript, and React. I craft performant, accessible, and beautiful digital experiences.";
+    "Software Developer specializing in building modern web applications with Next.js, TypeScript, and React. I craft performant, accessible, and beautiful digital experiences.";
   const ctaPrimary = hero?.ctaPrimary || "View My Work";
   const ctaSecondary = hero?.ctaSecondary || "Download Resume";
 
