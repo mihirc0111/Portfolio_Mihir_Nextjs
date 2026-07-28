@@ -254,12 +254,24 @@ const sampleData = {
   },
 };
 
+const DUPLICATE_TYPES = ["hero", "about", "skillCategory", "project", "achievement", "book"];
+
 async function seed() {
   console.log("🌱 Seeding Sanity CMS...\n");
 
   try {
+    // Clean up existing documents to prevent duplicates
+    console.log("🧹 Cleaning up existing documents...");
+    for (const type of DUPLICATE_TYPES) {
+      const ids = await client.fetch(`*[_type == "${type}"]._id`);
+      if (ids.length > 0) {
+        await client.delete({ query: `*[_type == "${type}"]` });
+        console.log(`  ✓ Deleted ${ids.length} existing "${type}" document(s)`);
+      }
+    }
+
     // Seed hero
-    console.log("🎯 Creating hero...");
+    console.log("\n🎯 Creating hero...");
     await client.create(sampleData.hero);
     console.log("  ✓ Created hero");
 
