@@ -17,7 +17,7 @@ export default function HeroCtas({ ctaPrimary, ctaSecondary }: Props) {
   const canViewResume = !!userRole && RESUME_ROLES.includes(userRole);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 mt-4">
+    <div className="flex flex-col sm:flex-row gap-4 mt-4 justify-center sm:justify-start items-center">
       <Link
         href="/projects"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition-colors"

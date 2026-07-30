@@ -70,7 +70,8 @@ export const booksQuery = `*[_type == "book"] | order(orderPriority asc) {
   author,
   coverImage,
   rating,
-  review,
+  genre,
+  description,
   status,
   startDate,
   endDate
@@ -82,7 +83,8 @@ export const readingBookQuery = `*[_type == "book" && status == "reading"][0] {
   author,
   coverImage,
   rating,
-  review,
+  genre,
+  description,
   status,
   startDate
 }`;
@@ -93,7 +95,8 @@ export const readBooksQuery = `*[_type == "book" && status == "read"] | order(or
   author,
   coverImage,
   rating,
-  review,
+  genre,
+  description,
   status,
   startDate,
   endDate

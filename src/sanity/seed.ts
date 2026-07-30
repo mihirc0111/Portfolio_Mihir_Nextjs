@@ -142,49 +142,178 @@ const sampleData = {
   achievements: [
     {
       _type: "achievement",
-      title: "Software Developer at Axis Bank",
+      title: "MHT-CET Merit Ranker",
+      category: "Entrance Exam",
+      issuer: "Government of Maharashtra",
       description:
-        "Working as a Software Developer at Axis Bank, building modern web applications with React and TypeScript.",
-      date: "2023-06-01",
-      category: "achievement",
-      issuer: "Axis Bank",
-      icon: "Award",
+        "Bagged a whopping 153rd Rank out of 1.74 Lakh students that registered for the exam. Got a 99.89 percentile in PCM! Got admission in VJTI, Mumbai - top BTech college in Maharashtra.",
+      date: "2020-09-01",
       orderPriority: 1,
     },
     {
       _type: "achievement",
-      title: "React Certification",
-      description: "Certified React Developer with expertise in modern React patterns and best practices.",
-      date: "2023-01-15",
-      category: "certification",
-      issuer: "Meta",
-      icon: "GraduationCap",
+      title: "SSC Merit Holder",
+      category: "Secondary School Certificate",
+      issuer: "Government of Maharashtra",
+      description:
+        "Bagged a whopping 94.20% in SSC exam. Awarded with a trophy by Mahesh Tutorials Coaching Institute!",
+      date: "2018-03-01",
       orderPriority: 2,
+    },
+    {
+      _type: "achievement",
+      title: "Team Award - SERP Optimization Project",
+      category: "award",
+      issuer: "Axis Mutual Fund ACE Awards",
+      description:
+        "Aimed to boost organic visibility, improve keyword performance, and deliver measurable search impact. Leveraged data-driven strategies, on-page and off-page SEO, and continuous monitoring to enhance keyword rankings across key business segments, increase CTR and user engagement via optimized meta elements, and develop a scalable framework to sustain search growth.",
+      date: "2025-09-12",
+      orderPriority: 3,
     },
   ],
   books: [
     {
       _type: "book",
-      title: "Clean Code",
-      author: "Robert C. Martin",
-      rating: 5,
-      review:
-        "A must-read for every developer. Teaches how to write clean, maintainable, and efficient code.",
-      status: "read",
-      startDate: "2024-01-01",
-      endDate: "2024-02-15",
+      title: "The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness",
+      author: "Morgan Housel",
+      genre: "Personal Finance / Behavioral Economics / Self-Help",
+      description:
+        "Explores how psychological biases, personal history, ego, and human behavior impact financial decisions far more than technical knowledge or mathematical formulas.",
+      rating: 0,
+      status: "reading",
       orderPriority: 1,
     },
     {
       _type: "book",
-      title: "The Pragmatic Programmer",
-      author: "David Thomas, Andrew Hunt",
-      rating: 5,
-      review: "Essential reading for software craftsmanship and career growth.",
+      title: "The Alchemist",
+      author: "Paulo Coelho",
+      genre: "Philosophical Fiction / Quest",
+      description:
+        "Follows a young Andalusian shepherd named Santiago on his journey to the Egyptian pyramids in search of a hidden treasure, learning to listen to his heart and follow his Personal Legend along the way.",
+      rating: 0,
       status: "read",
-      startDate: "2024-03-01",
-      endDate: "2024-04-10",
       orderPriority: 2,
+    },
+    {
+      _type: "book",
+      title: "Ikigai: The Japanese Secret to a Long and Happy Life",
+      author: "Héctor García and Francesc Miralles",
+      genre: "Self-Help / Philosophy",
+      description:
+        "Explores the Japanese concept of 'ikigai' (a reason for being) through the lifestyle, diet, habits, and mindset of the long-lived residents of Okinawa.",
+      rating: 0,
+      status: "read",
+      orderPriority: 3,
+    },
+    {
+      _type: "book",
+      title: "Who Moved My Cheese?",
+      author: "Spencer Johnson",
+      genre: "Self-Help / Business Fable",
+      description:
+        "An allegorical tale about four characters living in a maze who face sudden changes when their supply of cheese disappears, offering practical insights on adapting to change.",
+      rating: 0,
+      status: "read",
+      orderPriority: 4,
+    },
+    {
+      _type: "book",
+      title: "The Art of Laziness",
+      author: "Library Mindset",
+      genre: "Self-Help / Productivity",
+      description:
+        "A concise guide focused on overcoming procrastination, building effective habits, and managing focus and time efficiently without feeling overwhelmed.",
+      rating: 0,
+      status: "read",
+      orderPriority: 5,
+    },
+    {
+      _type: "book",
+      title: "The Gita for Children",
+      author: "Roopa Pai",
+      genre: "Children's Non-Fiction / Mythology & Philosophy",
+      description:
+        "A playful and accessible retelling of the 700 verses of the Bhagavad Gita, breaking down its ancient philosophical lessons on duty, action, and mindset for young readers.",
+      rating: 0,
+      status: "read",
+      orderPriority: 6,
+    },
+    {
+      _type: "book",
+      title: "The Monk Who Sold His Ferrari",
+      author: "Robin Sharma",
+      genre: "Self-Help / Fable",
+      description:
+        "Follows Julian Mantle, a high-profile lawyer who suffers a heart attack and embarks on a spiritual odyssey to the Himalayas, discovering core principles for a fulfilling life.",
+      rating: 0,
+      status: "read",
+      orderPriority: 7,
+    },
+    {
+      _type: "book",
+      title: "The Subtle Art of Not Giving a F*ck",
+      author: "Mark Manson",
+      genre: "Self-Help / Personal Growth",
+      description:
+        "A counterintuitive approach to living a good life that encourages readers to embrace limitations, accept responsibility, and focus energy only on what truly matters.",
+      rating: 0,
+      status: "read",
+      orderPriority: 8,
+    },
+    {
+      _type: "book",
+      title: "The Girl on the Train",
+      author: "Paula Hawkins",
+      genre: "Psychological Thriller / Mystery",
+      description:
+        "Focuses on Rachel, a daily commuter who becomes entangled in a missing person's investigation after witnessing something shocking from her train window.",
+      rating: 0,
+      status: "read",
+      orderPriority: 9,
+    },
+    {
+      _type: "book",
+      title: "The Illustrated Ramayana",
+      author: "DK / Valmiki",
+      genre: "Mythology / Indian Epic / Illustrated Reference",
+      description:
+        "A visual retelling of the epic journey of Prince Rama, highlighting themes of duty, devotion, righteousness, and courage through traditional artwork and commentary.",
+      rating: 0,
+      status: "read",
+      orderPriority: 10,
+    },
+    {
+      _type: "book",
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      genre: "Psychological Thriller / Suspense",
+      description:
+        "Centers on Alicia Berenson, a famous painter who shoots her husband five times and never speaks another word, and the criminal psychotherapist obsessed with uncovering her motive.",
+      rating: 0,
+      status: "read",
+      orderPriority: 11,
+    },
+    {
+      _type: "book",
+      title: "Life's Amazing Secrets: How to Find Balance and Purpose in Your Life",
+      author: "Gaur Gopal Das",
+      genre: "Self-Help / Spirituality",
+      description:
+        "Shares insights on relationships, purpose, work-life balance, and inner peace through a conversational journey through Mumbai with monk Gaur Gopal Das.",
+      rating: 0,
+      status: "read",
+      orderPriority: 12,
+    },
+    {
+      _type: "book",
+      title: "Flowers for Algernon",
+      author: "Daniel Keyes",
+      genre: "Science Fiction / Psychological Drama",
+      description:
+        "Written as progress reports by Charlie Gordon, a man with a low IQ who undergoes an experimental surgical procedure that dramatically increases his intelligence, echoing an earlier test on a laboratory mouse named Algernon.",
+      rating: 0,
+      status: "read",
+      orderPriority: 13,
     },
   ],
   whatsNext: {
@@ -195,22 +324,22 @@ const sampleData = {
       {
         title: "Blog Section",
         description: "A dedicated blog to share technical articles, tutorials, and insights about frontend development, React, and Next.js.",
-        status: "in-progress",
-        eta: "Q1 2026",
+        status: "planned",
+        eta: "November 2026",
         order: 1,
       },
       {
         title: "Favourite Movies & Series List",
         description: "A curated list of my favourite movies and series with ratings, reviews, and recommendations — a fun personal touch to the portfolio.",
         status: "planned",
-        eta: "Q2 2026",
+        eta: "November 2026",
         order: 2,
       },
       {
         title: "Travel Photography Gallery",
         description: "A visual gallery of travel photos with location tags and stories from memorable trips.",
         status: "planned",
-        eta: "Q2 2026",
+        eta: "November 2026",
         order: 3,
       },
     ],
@@ -221,19 +350,32 @@ const sampleData = {
     subtitle: "Skills and technologies I am planning to learn or currently exploring.",
     items: [
       {
-        name: "AWS Certified Developer – Associate",
-        category: "Cloud & DevOps",
-        description: "Earning the AWS Certified Developer – Associate certification to deepen cloud infrastructure, serverless architecture, and deployment automation expertise.",
-        resourceUrl: "https://aws.amazon.com/certification/",
+        name: "Flutter & Dart",
+        category: "Mobile Development",
+        description: "Master cross-platform mobile application development using Flutter and Dart to build performant, natively compiled applications for iOS and Android from a single codebase.",
         priority: "high",
         order: 1,
       },
       {
-        name: "System Architecture & Design",
-        category: "Architecture",
-        description: "Studying distributed systems, microservices patterns, and large-scale system design for building robust, scalable applications.",
+        name: "System Design & Low-Level Architecture",
+        category: "Software Engineering",
+        description: "Deepen expertise in designing scalable, fault-tolerant distributed systems, object-oriented design patterns, caching strategies, and database indexing for high-traffic applications.",
         priority: "high",
         order: 2,
+      },
+      {
+        name: "Kubernetes & Docker Orchestration",
+        category: "Cloud & DevOps",
+        description: "Master container management, auto-scaling, and microservice deployment workflows using Docker and Kubernetes to ensure smooth CI/CD pipelines and high availability.",
+        priority: "medium",
+        order: 3,
+      },
+      {
+        name: "Web Vitals & Web Security (OWASP)",
+        category: "Frontend & Core Web",
+        description: "Optimize critical rendering paths, core web vitals, dynamic bundle sizing, and enforce security practices against common web vulnerabilities like XSS, CSRF, and data leaks.",
+        priority: "high",
+        order: 4,
       },
     ],
   },
@@ -275,7 +417,7 @@ const sampleData = {
   },
 };
 
-const DUPLICATE_TYPES = ["hero", "about", "skillCategory", "project", "achievement", "book"];
+const DUPLICATE_TYPES = ["hero", "about", "skillCategory"];
 
 async function seed() {
   console.log("🌱 Seeding Sanity CMS...\n");
@@ -308,25 +450,53 @@ async function seed() {
       console.log(`  ✓ Created: ${category.title}`);
     }
 
-    // Seed projects
-    console.log("\n📦 Creating projects...");
+    // Seed projects (upsert by slug — preserve coverImage)
+    console.log("\n📦 Upserting projects...");
     for (const project of sampleData.projects) {
-      await client.create(project);
-      console.log(`  ✓ Created: ${project.title}`);
+      const existing = await client.fetch(`*[_type == "project" && slug.current == "${project.slug.current}"][0]`);
+      if (existing) {
+        // Update text fields only — never touch coverImage
+        await client
+          .patch(existing._id)
+          .set({
+            title: project.title,
+            description: project.description,
+            techStack: project.techStack,
+            liveUrl: project.liveUrl,
+            githubUrl: project.githubUrl,
+            status: project.status,
+            orderPriority: project.orderPriority,
+          })
+          .commit();
+        console.log(`  ✓ Updated: ${project.title}`);
+      } else {
+        await client.create(project);
+        console.log(`  ✓ Created: ${project.title}`);
+      }
     }
 
-    // Seed achievements
-    console.log("\n🏆 Creating achievements...");
+    // Seed achievements (delete all + recreate for clean replacement)
+    console.log("\n🏆 Seeding achievements...");
+    const existingAchievementIds = await client.fetch('*[_type == "achievement"]._id');
+    if (existingAchievementIds.length > 0) {
+      await client.delete({ query: '*[_type == "achievement"]' });
+      console.log(`  ✓ Deleted ${existingAchievementIds.length} existing achievement(s)`);
+    }
     for (const achievement of sampleData.achievements) {
       await client.create(achievement);
       console.log(`  ✓ Created: ${achievement.title}`);
     }
 
-    // Seed books
-    console.log("\n📚 Creating books...");
+    // Seed books (skip if already exists)
+    console.log("\n📚 Upserting books...");
     for (const book of sampleData.books) {
-      await client.create(book);
-      console.log(`  ✓ Created: ${book.title}`);
+      const existing = await client.fetch(`*[_type == "book" && title == "${book.title}"][0]._id`);
+      if (existing) {
+        console.log(`  ⏭ Skipped (already exists): ${book.title}`);
+      } else {
+        await client.create(book);
+        console.log(`  ✓ Created: ${book.title}`);
+      }
     }
 
     // Seed what's next (singleton — create or update)

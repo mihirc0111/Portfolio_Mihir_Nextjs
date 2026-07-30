@@ -8,6 +8,7 @@ import {
   ExternalLink,
   Sparkles,
 } from "lucide-react";
+import ReadMore from "@/components/ReadMore";
 
 export const metadata: Metadata = {
   title: "Achievements",
@@ -79,7 +80,9 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
           )}
 
           {achievement.description && (
-            <p className="text-sm text-muted mt-2">{achievement.description}</p>
+            <div className="mt-2">
+              <ReadMore text={achievement.description} maxLines={2} />
+            </div>
           )}
 
           <div className="flex items-center gap-4 mt-3">

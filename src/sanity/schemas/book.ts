@@ -32,8 +32,14 @@ export default defineType({
       validation: (rule) => rule.min(0).max(5),
     }),
     defineField({
-      name: "review",
-      title: "Review / Notes",
+      name: "genre",
+      title: "Genre",
+      type: "string",
+      description: "e.g., Self-Help, Fiction, Philosophy",
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
       type: "text",
       rows: 3,
     }),

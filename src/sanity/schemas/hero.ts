@@ -46,8 +46,9 @@ export default defineType({
     }),
     defineField({
       name: "profileImage",
-      title: "Profile Image",
+      title: "Profile Image (Full Body Photo)",
       type: "image",
+      description: "Upload your full-body or portrait photo here. Recommended aspect ratio: 3:4",
       options: {
         hotspot: true,
       },
@@ -57,7 +58,6 @@ export default defineType({
     select: {
       title: "name",
       subtitle: "tagline",
-      media: "profileImage",
     },
   },
 });

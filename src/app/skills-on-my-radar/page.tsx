@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { sanityFetchSingle, skillsRadarQuery } from "@/lib/sanity";
 import { Target, ExternalLink, Sparkles } from "lucide-react";
+import ReadMore from "@/components/ReadMore";
 
 export const metadata: Metadata = {
   title: "Skills on my Radar",
@@ -49,7 +50,9 @@ function SkillsCard({ item }: { item: SkillsRadarItem }) {
 
       <p className="text-xs text-muted uppercase tracking-wider mb-2">{item.category}</p>
 
-      <p className="text-sm text-muted leading-relaxed">{item.description}</p>
+      <p className="text-sm text-muted leading-relaxed">
+        <ReadMore text={item.description} maxLines={2} />
+      </p>
 
       {item.resourceUrl && (
         <a
