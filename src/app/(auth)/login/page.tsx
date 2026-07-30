@@ -90,6 +90,9 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+        <p className="mt-6 text-xs text-center text-muted leading-relaxed">
+          Interested in exploring the dashboard? Send me a message through the <strong>Get in Touch</strong> section, and I’ll be happy to share guest credentials with you 🙂
+        </p>
       </div>
     </section>
   );
